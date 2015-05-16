@@ -1,0 +1,64 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+    }
+}
+apply plugin: 'eu.appsatori.fatjar'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin:'application'
+
+group = 'ua.org.shaddy.anion'
+mainClassName = "ua.org.shaddy.anion.MainTsLoader"
+
+repositories {
+    mavenCentral()
+   	maven {
+		url 'http://pecia.sourceforge.net/repository'
+	}
+	maven {
+		url 'http://snapshots.repository.codehaus.org'
+	}
+}
+String getRuntimeClasspath() {
+    sourceSets.main.runtimeClasspath.collect { it.absolutePath }.join(':')
+}
+
+jar {
+    manifest.attributes("Main-Class": mainClassName)
+}
+fatJar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    
+}
+
+dependencies {
+		//compile fileTree('lib')
+        compile 'log4j:log4j:1.2.11'
+        
+        //Tests
+        testCompile 'junit:junit:4.12'
+        testCompile "org.mockito:mockito-core:1.9.5"
+}
+sourceSets {
+    main {
+                java {
+                    srcDir "src/main/java"
+                    resources {
+                		srcDirs = ["src/main/resources"]
+                		includes = ["**/*"]
+            		}
+                }
+        }
+        test {
+                java {
+                        srcDir "src/test/java"
+                }
+        }
+}
