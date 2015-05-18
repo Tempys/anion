@@ -9,9 +9,12 @@ public class ByteBitInputStream extends BitInputStream {
 		this.data = data;
 	}
 	
-	@Override
 	protected int loadByteNative() {
 		return BitTools.byteToUnsigned(data[pointer++]);
 	}
-
+	
+	public void skip(int skipSize) {
+		counter += skipSize;
+		pointer += skipSize;
+	}
 }

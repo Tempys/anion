@@ -7,8 +7,8 @@ import ua.org.shaddy.anion.streamtools.codec.BitStreamDecoder;
 import junit.framework.TestCase;
 
 public class TestBitStreamDecoder extends TestCase{
-	private static final byte TEST_BYTE_1 = 0b01010101;
-	private static final byte TEST_BYTE_2 = 0b00001111;
+	private static final byte TEST_BYTE_1 = 0x55;
+	private static final byte TEST_BYTE_2 = 0x0f;
 	public void testIntLoading(){
 		BitInputStream bs = new ByteBitInputStream(new byte[] {0x0a, 0x0b, 0x0c, 0x0d, TEST_BYTE_1, TEST_BYTE_2, TEST_BYTE_1, TEST_BYTE_2});
 		BitStreamDecoder bsCodec = new BitStreamDecoder(bs);

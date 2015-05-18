@@ -117,4 +117,34 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 	public void setByteOrder(byte byteOrder) {
 		this.byteOrder = byteOrder;
 	}
+	/**
+	 * loads an 1 bit boolean from stream
+	 * @return
+	 */
+	public boolean loadBoolean() {
+		//
+		//	TODO:optimize this
+		//
+		return loadByte(1) != 0;
+	}
+	/**
+	 * loads a byte array with given size
+	 * @param size
+	 * @return
+	 */
+	public byte[] loadByteArray(int size) {
+		byte[] byteArray = new byte[size];
+		for (int i = 0; i < size; i++){
+			byteArray[i] = (byte) loadByte();
+		}
+		return byteArray;
+	}
+	/**
+	 * loads a string from stream
+	 * @param size
+	 * @return
+	 */
+	public String loadString(int size){
+		return new String(loadByteArray(size));
+	}
 }

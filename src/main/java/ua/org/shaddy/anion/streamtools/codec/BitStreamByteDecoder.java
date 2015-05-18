@@ -6,8 +6,7 @@ public class BitStreamByteDecoder {
 	private final BitInputStream bs;
 	private int lastByte = 0;
 	private int padding = 0;
-	int[] bitMask = new int[] { 0b00000000, 0b00000001, 0b00000011, 0b00000111,
-			0b00001111, 0b00011111, 0b00111111, 0b01111111, 0b11111111 };
+	int[] bitMask = new int[] { 0, 1, 3, 7,	15, 31, 63, 127, 255};
 
 	public BitStreamByteDecoder(BitInputStream bs) {
 		this.bs = bs;
@@ -64,5 +63,9 @@ public class BitStreamByteDecoder {
 	 */
 	public int getPadding() {
 		return padding;
+	}
+	
+	public void skip(int skipSize) {
+		bs.skip(skipSize);
 	}
 }
