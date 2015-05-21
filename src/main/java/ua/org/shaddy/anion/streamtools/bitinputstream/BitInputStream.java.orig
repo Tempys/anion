@@ -39,7 +39,12 @@ public abstract class BitInputStream {
 	 */
 	public void skip(int skipSize) {
 		for (int i = 0; i < skipSize; i++){
+<<<<<<< HEAD
+			int d = loadByte();
+			System.out.println("skipped:" + Integer.toHexString(d));
+=======
 			loadByte();
+>>>>>>> 5a266316b19295e7011426e6744ae88bec474663
 		}
 	}
 }
