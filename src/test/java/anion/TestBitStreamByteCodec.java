@@ -17,7 +17,7 @@ public class TestBitStreamByteCodec extends TestCase{
 	}
 	
 	public void testBitLoading(){
-		BitInputStream bs = new ByteBitInputStream(new byte[] {(byte) 0b10101010, 0b00111, 0x0c, 0x0d});
+		BitInputStream bs = new ByteBitInputStream(new byte[] {(byte) 0xaa, 0x07, 0x0c, 0x0d});
 		BitStreamByteDecoder bCodec = new BitStreamByteDecoder(bs);
 		assertEquals(0, bCodec.loadByte(1));
 		assertEquals(1, bCodec.getPadding());
@@ -40,11 +40,11 @@ public class TestBitStreamByteCodec extends TestCase{
 	}
 	
 	public void testBitLoadingPaddings(){
-		BitInputStream bs = new ByteBitInputStream(new byte[] {(byte) 0b11001100, 0b00111, 0x0c, 0x0d});
+		BitInputStream bs = new ByteBitInputStream(new byte[] {(byte) 0xcc, 0x07, 0x0c, 0x0d});
 		BitStreamByteDecoder bCodec = new BitStreamByteDecoder(bs);
-		assertEquals(0b1100, bCodec.loadByte(4));
+		assertEquals(0x0c, bCodec.loadByte(4));
 		assertEquals(4, bCodec.getPadding());
-		assertEquals(0b1100111, bCodec.loadByte(7));
+		assertEquals(0x67, bCodec.loadByte(7));
 		//assertEquals(4, bCodec.getPadding());
 	}
 	

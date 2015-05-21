@@ -6,7 +6,7 @@ package ua.org.shaddy.anion.streamtools.bitinputstream;
  *
  */
 public abstract class BitInputStream {
-	private long counter = 0;
+	protected long counter = 0;
 	/**
 	 * loads single byte from bit stream and increments a counter
 	 * @return
@@ -32,5 +32,15 @@ public abstract class BitInputStream {
 	 */
 	public void resetCounter(){
 		counter = 0;
+	}
+	/**
+	 * skip some bytes in stream
+	 * @param skipSize
+	 */
+	public void skip(int skipSize) {
+		for (int i = 0; i < skipSize; i++){
+			int d = loadByte();
+			System.out.println("skipped:" + Integer.toHexString(d));
+		}
 	}
 }
