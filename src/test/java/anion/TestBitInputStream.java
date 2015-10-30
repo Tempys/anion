@@ -1,9 +1,8 @@
 package anion;
 
-import ua.org.shaddy.anion.streamtools.ByteOrder;
+import junit.framework.TestCase;
 import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
 import ua.org.shaddy.anion.streamtools.bitinputstream.ByteBitInputStream;
-import junit.framework.TestCase;
 
 public class TestBitInputStream extends TestCase{
 	public void testByteLoading(){

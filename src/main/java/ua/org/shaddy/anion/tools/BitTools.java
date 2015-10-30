@@ -9,4 +9,8 @@ public class BitTools {
 	public static int byteToUnsigned(byte byteValue){
 		return byteValue < 0 ? 256 + byteValue : byteValue;
 	}
+	
+	public static byte unsignedToByte(int byteValue){
+		return (byte) byteValue;
+	}
 }
