@@ -1,4 +1,4 @@
-package anion;
+package ua.org.shaddy.anion.bitInputstream;
 
 import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
 import ua.org.shaddy.anion.streamtools.bitinputstream.ByteBitInputStream;

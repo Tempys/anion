@@ -1,6 +1,7 @@
-package ua.org.shaddy.anion.streamtools.bitoutputstream;
+package ua.org.shaddy.anion.bitoutputstream;
 
 import junit.framework.TestCase;
+import ua.org.shaddy.anion.streamtools.bitoutputstream.ByteBitOutputStream;
 
 public class BitOutputStreamTest extends TestCase {
 

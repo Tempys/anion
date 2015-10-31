@@ -1,4 +1,4 @@
-package anion;
+package ua.org.shaddy.anion.bitInputstream;
 
 import junit.framework.TestCase;
 import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
