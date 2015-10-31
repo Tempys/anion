@@ -38,7 +38,10 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 			// TODO: optimize this
 			//
 			int times = size / 8 - 1;
-			startShift = times * 8;
+			//
+			//	fast multiplication by 8
+			//
+			startShift = times << 3;
 			while (startShift >= 8) {
 				res = res | loadByte(8) << startShift;
 				startShift -= 8;
