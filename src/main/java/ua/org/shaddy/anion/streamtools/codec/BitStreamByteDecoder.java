@@ -1,12 +1,12 @@
 package ua.org.shaddy.anion.streamtools.codec;
 
 import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
+import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamByteDecoder {
 	private final BitInputStream bs;
 	private int lastByte = 0;
 	private int padding = 0;
-	int[] bitMask = new int[] { 0, 1, 3, 7,	15, 31, 63, 127, 255};
 
 	public BitStreamByteDecoder(BitInputStream bs) {
 		this.bs = bs;
@@ -34,7 +34,7 @@ public class BitStreamByteDecoder {
 			return bs.loadByte();
 		} else if (padding == 0) {
 			int loadedByte = bs.loadByte();
-			int data = loadedByte & bitMask[bitCount];
+			int data = loadedByte & BitTools.bitMask[bitCount];
 			lastByte = loadedByte;
 			padding = bitCount;
 			return data;
@@ -45,13 +45,13 @@ public class BitStreamByteDecoder {
 				if (padding == 8) {
 					padding = 0;
 				}
-				return data & bitMask[bitCount];
+				return data & BitTools.bitMask[bitCount];
 			} else {
 				int lastByte = bs.loadByte();
 				int firstBitCount = 8 - padding;
 				int secondBitCount = bitCount - firstBitCount;
 				data = data << secondBitCount;
-				data = data | (lastByte & bitMask[secondBitCount]);
+				data = data | (lastByte & BitTools.bitMask[secondBitCount]);
 				padding = (bitCount - 8);
 				return data;
 			}
