@@ -15,7 +15,7 @@ public class ByteBitOutputStream extends BitOutputStream{
 		this.data = new byte[size];
 	}
 	
-	protected void saveByteNative(int dataByte) {
+	protected void writeByteNative(int dataByte) {
 		data[pointer] = BitTools.unsignedToByte(dataByte);
 		pointer++;
 	}

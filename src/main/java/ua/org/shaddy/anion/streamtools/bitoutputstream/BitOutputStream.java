@@ -10,13 +10,13 @@ public abstract class BitOutputStream {
 	 * saves single byte from bit stream and increments a counter
 	 * @return
 	 */
-	protected abstract void saveByteNative(int data);
+	protected abstract void writeByteNative(int data);
 	/**
 	 * saves a byte to stream and increments a counter of saved bytes
 	 * @return
 	 */
-	public long saveByte(int data){
-		saveByteNative(data);
+	public long writeByte(int data){
+		writeByteNative(data);
 		counter ++;
 		return counter;
 	}

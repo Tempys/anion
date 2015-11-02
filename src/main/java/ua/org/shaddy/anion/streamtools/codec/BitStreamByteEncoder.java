@@ -12,37 +12,60 @@ public class BitStreamByteEncoder {
 	public BitStreamByteEncoder(BitOutputStream bs){
 		this.bs = bs;
 	}
-	public void saveByte(int data){
-		saveByte(data, 8);
+	/**
+	 * writes an byte to {@link BitOutputStream}, considering padding 
+	 * @param data
+	 */
+	public void writeByte(int data){
+		writeByte(data, 8);
 	}
-	public void saveByte(int data, int bitCount){
+	/**
+	 * writes an bitcount (max 8) to {@link BitOutputStream}, considering padding 
+	 * @param data
+	 * @param bitCount
+	 */
+	public void writeByte(int data, int bitCount){
 		if (bitCount > 8){
 			bitCount = 8;
 		}
 		if (padding == 0 && bitCount == 8) {
-			bs.saveByte(data);
+			bs.writeByte(data);
 		} else if (padding == 0){
 			lastByte = data;
 			padding = bitCount;
 		} else {
 			if (bitCount + padding <= 8) {
-				lastByte = (data << padding) | lastByte;
+				lastByte = (data << padding) | (BitTools.bitMask[padding] & lastByte);
 				padding += bitCount;
 				if (padding == 8) {
 					padding = 0;
-					bs.saveByte(lastByte);
+					bs.writeByte(lastByte);
 					lastByte = 0;
 				}
 				return;
 			} else {
 				int firstBitCount = 8 - padding;
 				try{
-					bs.saveByte(lastByte | ((data & BitTools.bitMask[firstBitCount]) << padding));
+					bs.writeByte(lastByte | ((data & BitTools.bitMask[firstBitCount]) << padding));
 				} finally {
 					padding = bitCount - firstBitCount;
 					lastByte = data >>> firstBitCount;	
 				}
 			}
 		}
+	}
+	/**
+	 * writes last bits to byte
+	 */
+	public void pad(){
+		pad(false);
+	}
+	/**
+	 * writes last bits to byte
+	 * @param one - writes 1 if true
+	 * 
+	 */
+	public void pad(boolean one){
+		writeByte(one ? 1:0, 8 - padding);
 	}
 }
