@@ -43,7 +43,7 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 			//
 			startShift = times << 3;
 			while (startShift >= 8) {
-				res = res | loadByte(8) << startShift;
+				res = res | (loadByte(8) << startShift);
 				startShift -= 8;
 				size -= 8;
 			}
@@ -60,15 +60,14 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 	 * @return
 	 */
 	public int loadInt32() {
-		int res;
+		int r1 = loadInt16();
+		int r2 = loadInt16();
 		if (byteOrder == ByteOrder.BIG_ENDIAN) {
-			res = loadByte() | loadByte() << 8 | loadByte() << 16
-					| loadByte() << 24;
+			return (r2  << 16) | r1 ;
 		} else {
-			res = loadByte() << 24 | loadByte() << 16 | loadByte() << 8
-					| loadByte();
+			return (r1  << 16) | r2; 
+			
 		}
-		return res;
 	}
 
 	/**
@@ -79,9 +78,9 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 	public int loadInt16() {
 		int res;
 		if (byteOrder == ByteOrder.BIG_ENDIAN) {
-			res = loadByte() | loadByte() << 8;
+			res = loadByte() | (loadByte() << 8);
 		} else {
-			res = loadByte() << 8 | loadByte();
+			res = (loadByte() << 8) | loadByte();
 		}
 		return res;
 	}
@@ -93,13 +92,14 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 	 */
 	public long loadLong64() {
 		long res;
+		int r1 = loadInt32();
+		int r2 = loadInt32();
 		if (byteOrder == ByteOrder.BIG_ENDIAN) {
-			res = loadByte() | loadByte() << 8 | loadByte() << 16
-					| loadByte() << 24 | loadByte() << 32 | loadByte() << 48;
+			res = (((long)r2) << 32) | (long) r1 ;
 		} else {
-			res = loadByte() | loadByte() << 8 | loadByte() << 16
-					| loadByte() << 24 | loadByte() << 32 | loadByte() << 48;
+			res = r1 << 32;
 		}
+		System.out.println("res:" + Long.toHexString(res));
 		return res;
 	}
 

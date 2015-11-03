@@ -2,6 +2,7 @@ package ua.org.shaddy.anion.streamtools.bitoutputstream;
 
 import ua.org.shaddy.anion.streamtools.ByteOrder;
 import ua.org.shaddy.anion.streamtools.codec.BitStreamByteEncoder;
+import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamEncoder extends BitStreamByteEncoder{
 	private byte byteOrder;
@@ -25,7 +26,7 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 		//
 		// TODO: optimize this code
 		//
-		int res = 0;
+		
 		int startShift;
 		if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
 			//
@@ -41,21 +42,17 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 			}
 		} else {
 			//
-			// TODO: optimize this
+			//	fast mod 8
 			//
-			int times = size >>> 3;
-			//
-			//	fast multiplication by 8
-			//
-			startShift = (times << 3) - 8;
-			while (startShift >= 8) {
-				res = (data >>> startShift) & 255;
-				writeByte(res);
+			startShift = (size >>> 3) << 3 ; 
+			if (startShift == size){
 				startShift -= 8;
-				size -= 8;
 			}
-			if (size > 0){
-				writeByte(data, size);
+			
+			while (startShift >= 0){
+				writeByte(data >>> startShift, size - startShift);
+				startShift -= 8;
+				size = startShift + 8;
 			}
 		}
 	}

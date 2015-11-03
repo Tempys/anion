@@ -55,10 +55,9 @@ public class BitStreamEncoderTest extends TestCase {
 	public void testWriteLittleEndian(){
 		ByteBitOutputStream bos = new ByteBitOutputStream(6);
 		BitStreamEncoder bse = new BitStreamEncoder(bos, ByteOrder.BIG_ENDIAN);
-		bse.writeInt(0x01 << 24 | 0x02 << 16 | 0x03 << 8 | 0x04, 24);
-		assertEquals((byte) 0x04, bos.getData()[0]);
-		assertEquals((byte) 0x03, bos.getData()[1]);
-		assertEquals((byte) 0x02, bos.getData()[2]);
-		assertEquals((byte) 0x01, bos.getData()[3]);
+		bse.writeInt(0x01 << 8 | 0x02, 12);
+		assertEquals((byte) 33, bos.getData()[0]);
+		assertEquals((byte) 0, bos.getData()[1]);
+		
 	}
 }
