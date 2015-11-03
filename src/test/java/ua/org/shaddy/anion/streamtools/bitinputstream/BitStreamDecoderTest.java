@@ -7,8 +7,12 @@ import ua.org.shaddy.anion.streamtools.codec.BitStreamDecoder;
 
 public class BitStreamDecoderTest extends TestCase {
 
+	private static final String TEST_STRING= "test string";
+
 	public void testLoadInt() {
-		
+		/*BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
+		BitStreamDecoder bsd = new BitStreamDecoder(bis);
+		assertEquals(0xA1b2c3d4, bsd.loadInt32());*/
 	}
 
 	public void testLoadInt32() {
@@ -44,12 +48,41 @@ public class BitStreamDecoderTest extends TestCase {
 		assertEquals(true, bsd.loadBoolean());
 	}
 
-	/*public void testLoadByteArray() {
-		fail("Not yet implemented");
+	public void testLoadByteArray() {
+		BitInputStream bis = new ByteBitInputStream(new byte[]{
+				(byte) 0x1a, (byte) 0x2b, (byte) 0x3c, (byte) 0x4d
+		});
+		BitStreamDecoder bsd = new BitStreamDecoder(bis);
+		byte[] ba = bsd.loadByteArray(4);
+		assertEquals(0x1a, ba[0]);
+		assertEquals(0x2b, ba[1]);
+		assertEquals(0x3c, ba[2]);
+		assertEquals(0x4d, ba[3]);
 	}
 
 	public void testLoadString() {
-		fail("Not yet implemented");
-	}*/
-
+		BitInputStream bis = new ByteBitInputStream(TEST_STRING.getBytes());
+		BitStreamDecoder bsd = new BitStreamDecoder(bis);
+		String str = bsd.loadString(TEST_STRING.length());
+		assertEquals(TEST_STRING, str);
+	}
+	
+	public void testLoadStringEncoding() {
+		BitInputStream bis = new ByteBitInputStream(TEST_STRING.getBytes());
+		BitStreamDecoder bsd = new BitStreamDecoder(bis);
+		String str = bsd.loadString(TEST_STRING.length(), "utf-8");
+		assertEquals(TEST_STRING, str);
+	}
+	
+	public void testLoadStringEncodingError() {
+		BitInputStream bis = new ByteBitInputStream(TEST_STRING.getBytes());
+		BitStreamDecoder bsd = new BitStreamDecoder(bis);
+		try{
+			String str = bsd.loadString(TEST_STRING.length(), "utf-88");
+			fail("Exception is expected, but not thrown");
+		} catch (Throwable t){
+			assertTrue(t instanceof BitStreamParsingException);
+		}
+	}
+	
 }
