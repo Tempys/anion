@@ -16,4 +16,7 @@ public class BitTools {
 	public static byte unsignedToByte(int byteValue){
 		return (byte) byteValue;
 	}
+	public static long intToLongUnsigned(int value){
+		return ((long) value) & 0xFFFFFFFFL;
+	}
 }

@@ -2,6 +2,7 @@ package ua.org.shaddy.anion.streamtools.codec;
 
 import ua.org.shaddy.anion.streamtools.ByteOrder;
 import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
+import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamDecoder extends BitStreamByteDecoder {
 
@@ -95,11 +96,10 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 		int r1 = loadInt32();
 		int r2 = loadInt32();
 		if (byteOrder == ByteOrder.BIG_ENDIAN) {
-			res = (((long)r2) << 32) | (long) r1 ;
+			res = BitTools.intToLongUnsigned(r2) << 32 | BitTools.intToLongUnsigned(r1);
 		} else {
-			res = r1 << 32;
+			res = BitTools.intToLongUnsigned(r1) << 32 | BitTools.intToLongUnsigned(r2);
 		}
-		System.out.println("res:" + Long.toHexString(res));
 		return res;
 	}
 

@@ -19,4 +19,12 @@ public class BitToolsTest extends TestCase {
 		assertEquals((byte) 127, checkConversion((byte) 127));
 		assertEquals((byte) -127, checkConversion((byte) -127));
 	}
+	
+	public void testIntToLong(){
+		assertEquals(Integer.MIN_VALUE, (int) BitTools.intToLongUnsigned(Integer.MIN_VALUE));
+		assertEquals(Integer.MAX_VALUE, (int) BitTools.intToLongUnsigned(Integer.MAX_VALUE));
+		assertEquals(Integer.MIN_VALUE / 2, (int) BitTools.intToLongUnsigned(Integer.MIN_VALUE / 2));
+		assertEquals(Integer.MAX_VALUE / 2, (int) BitTools.intToLongUnsigned(Integer.MAX_VALUE / 2));
+		assertEquals(0, (int) BitTools.intToLongUnsigned(0));
+	}
 }
