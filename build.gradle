@@ -14,8 +14,9 @@ apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin:'application'
 
-group = 'ua.org.shaddy.anion'
+group = 'ua.org.shaddy'
 version = '1.0.1-SNAPSHOT'
+description = """microtools"""
 mainClassName = "ua.org.shaddy.anion.MainTsLoader"
 targetCompatibility=1.4
 sourceCompatibility=1.4
