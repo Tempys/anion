@@ -14,7 +14,7 @@ public class TestBitStreamDecoder extends TestCase{
 		BitStreamDecoder bsCodec = new BitStreamDecoder(bs);
 		assertEquals(0x0a0b0c0d, bsCodec.loadInt32());
 		assertEquals(TEST_BYTE_1 << 8 | TEST_BYTE_2, bsCodec.loadInt16());
-		assertEquals(TEST_BYTE_1 << 8 | TEST_BYTE_2, bsCodec.loadInt(16));
+		assertEquals(TEST_BYTE_1 << 8 | TEST_BYTE_2, bsCodec.loadLong(16));
 	}
 	
 	public void testBigEndianIntLoading(){
@@ -23,6 +23,6 @@ public class TestBitStreamDecoder extends TestCase{
 		bsCodec.setByteOrder(ByteOrder.BIG_ENDIAN);
 		assertEquals(0x0d0c0b0a, bsCodec.loadInt32());
 		assertEquals(TEST_BYTE_2 << 8 | TEST_BYTE_1, bsCodec.loadInt16());
-		assertEquals(TEST_BYTE_2 << 8 | TEST_BYTE_1, bsCodec.loadInt(16));
+		assertEquals(TEST_BYTE_2 << 8 | TEST_BYTE_1, bsCodec.loadLong(16));
 	}
 }

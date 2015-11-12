@@ -22,7 +22,7 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 	 * @param data
 	 * @param size
 	 */
-	public void writeInt(int data, int size){
+	public void writeLong(long data, int size){
 		//
 		// TODO: optimize this code
 		//
@@ -33,12 +33,12 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 			// INFO: code optimized for no divisions / multiplications
 			//
 			while (size > 8) {
-				writeByte(data);
+				writeByte((int)data);
 				data = data >>> 8;
 				size -= 8;
 			}
 			if (size > 0){
-				writeByte(data, size);
+				writeByte((int)data, size);
 			}
 		} else {
 			//
@@ -50,7 +50,7 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 			}
 			
 			while (startShift >= 0){
-				writeByte(data >>> startShift, size - startShift);
+				writeByte((int)data >>> startShift, size - startShift);
 				startShift -= 8;
 				size = startShift + 8;
 			}
@@ -58,7 +58,7 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 	}
 	
 	public void writeInt32(int data) {
-		writeInt(data, 32);
+		writeLong(data, 32);
 	}
 	
 	public byte getByteOrder() {

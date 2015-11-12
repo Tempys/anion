@@ -14,18 +14,23 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 	public BitStreamDecoder(BitInputStream bs) {
 		super(bs);
 	}
-
 	/**
 	 * loads {@value size} bytes to int
 	 * 
 	 * @param size
 	 * @return
 	 */
-	public int loadInt(int size) {
+	public long loadLong(int size) {
+		if (size == 64){
+			return loadLong64();
+		}
+		if (size == 32){
+			return loadInt32();
+		}
 		//
 		// TODO: optimize this code
 		//
-		int res = 0;
+		long res = 0;
 		int startShift;
 		if (byteOrder == ByteOrder.BIG_ENDIAN) {
 			//

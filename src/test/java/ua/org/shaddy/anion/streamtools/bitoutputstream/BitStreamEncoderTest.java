@@ -13,10 +13,10 @@ public class BitStreamEncoderTest extends TestCase {
 		assertEquals((byte) 255, bos.getData()[0]);
 	}
 	
-	public void testWriteInt() {
+	public void testWriteLong() {
 		ByteBitOutputStream bos = new ByteBitOutputStream(6);
 		BitStreamEncoder bse = new BitStreamEncoder(bos);
-		bse.writeInt(65535, 12);
+		bse.writeLong(65535, 12);
 		bse.pad();
 		assertEquals((byte) 255, bos.getData()[0]);
 		assertEquals((byte) 15, bos.getData()[1]);
@@ -45,7 +45,7 @@ public class BitStreamEncoderTest extends TestCase {
 	public void testWriteLittleEndian(){
 		ByteBitOutputStream bos = new ByteBitOutputStream(6);
 		BitStreamEncoder bse = new BitStreamEncoder(bos, ByteOrder.BIG_ENDIAN);
-		bse.writeInt(0x01 << 8 | 0x02, 12);
+		bse.writeLong(0x01 << 8 | 0x02, 12);
 		assertEquals((byte) 33, bos.getData()[0]);
 		assertEquals((byte) 0, bos.getData()[1]);
 	}
