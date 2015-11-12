@@ -62,6 +62,16 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 		}
 		return res;
 	}
+	
+	/**
+	 * loads size bytes to int
+	 * @param size
+	 * @return
+	 */
+	public int loadInt(int size) {
+		return (int) loadLong(size);
+	}
+	
 
 	/**
 	 * loads 32 bit from {@link BitInputStream}

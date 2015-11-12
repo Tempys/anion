@@ -1,7 +1,7 @@
-package ua.org.shaddy.anion.streamtools.bitoutputstream;
+package ua.org.shaddy.anion.streamtools.codec;
 
 import ua.org.shaddy.anion.streamtools.ByteOrder;
-import ua.org.shaddy.anion.streamtools.codec.BitStreamByteEncoder;
+import ua.org.shaddy.anion.streamtools.bitoutputstream.BitOutputStream;
 import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamEncoder extends BitStreamByteEncoder{
@@ -56,7 +56,14 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 			}
 		}
 	}
-	
+	/**
+	 * writes int bits to output
+	 * @param data
+	 * @param size
+	 */
+	public void writeInt(int data, int size){
+		writeLong(data, size);
+	}
 	public void writeInt32(int data) {
 		writeLong(data, 32);
 	}
