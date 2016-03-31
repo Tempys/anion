@@ -43,9 +43,6 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 				startShift += 8;
 			}
 		} else {
-			//
-			// TODO: optimize this
-			//
 			int times = (size >> 3) - 1;
 			//
 			//	fast multiplication by 8
