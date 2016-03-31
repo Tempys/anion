@@ -30,7 +30,7 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 		}
 		
 		while (startShift >= 0){
-			writeByte((int)data >>> startShift, size - startShift);
+			writeByte((int)(data >>> startShift), size - startShift);
 			startShift -= 8;
 			size = startShift + 8;
 		}
@@ -42,13 +42,7 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 	 * @param size
 	 */
 	public void writeLong(long data, int size){
-		//
-		// TODO: optimize this code
-		//
 		if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
-			//
-			// INFO: code optimized for no divisions / multiplications
-			//
 			while (size > 8) {
 				writeByte((int)data);
 				data = data >>> 8;
