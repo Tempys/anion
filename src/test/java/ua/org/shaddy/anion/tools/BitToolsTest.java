@@ -6,6 +6,7 @@ public class BitToolsTest extends TestCase {
 
 	public void testByteToUnsigned() {
 		assertEquals(1, BitTools.byteToUnsigned((byte) 1));
+		assertEquals(130, BitTools.byteToUnsigned((byte) -126));
 	}
 	
 	private byte checkConversion(byte number){
@@ -18,6 +19,8 @@ public class BitToolsTest extends TestCase {
 		assertEquals((byte) -1, checkConversion((byte) -1));
 		assertEquals((byte) 127, checkConversion((byte) 127));
 		assertEquals((byte) -127, checkConversion((byte) -127));
+		assertEquals((byte) 50, checkConversion((byte) 50));
+		assertEquals((byte) -50, checkConversion((byte) -50));
 	}
 	
 	public void testIntToLong(){
