@@ -30,7 +30,7 @@ public class BitStreamDecoderTest extends TestCase {
 		BitInputStream bis1 = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
 		BitStreamDecoder bsd1 = new BitStreamDecoder(bis1);
 		bsd1.setByteOrder(ByteOrder.BIG_ENDIAN);
-		assertEquals(0xd4c3b2A1, bsd1.loadLong(32));
+		assertEquals(0xd4c3b2A1L, bsd1.loadLong(32));
 		
 		
 		BitInputStream bis2 = new ByteBitInputStream(new byte[]{
