@@ -10,7 +10,6 @@ public class BitTools {
 	 * @return
 	 */
 	public static int byteToUnsigned(byte byteValue){
-		//return byteValue < 0 ? 256 + byteValue : byteValue;
 		return byteValue & 255;
 	}
 	
