@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 
 import ua.org.shaddy.anion.streamtools.ByteOrder;
 import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
-import ua.org.shaddy.anion.streamtools.bitinputstream.BitStreamParsingException;
+import ua.org.shaddy.anion.streamtools.bitinputstream.BitStreamException;
 import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamDecoder extends BitStreamByteDecoder {
@@ -52,7 +52,7 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 			byte startShift;
 			startShift = 0;
 			while (size > 0) {
-				res = res | (long) loadByte(size) << startShift;
+				res = res | (long) loadByte(size > 8 ? 8 : size) << startShift;
 				size -= 8;
 				startShift += 8;
 			}
@@ -177,7 +177,7 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 		try {
 			return new String(loadByteArray(size), charsetName);
 		} catch (UnsupportedEncodingException e) {
-			throw new BitStreamParsingException("Error decoding string", e);
+			throw new BitStreamException("Error decoding string", e);
 		}
 	}
 }

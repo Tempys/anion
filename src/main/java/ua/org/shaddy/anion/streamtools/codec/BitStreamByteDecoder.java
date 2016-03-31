@@ -1,6 +1,7 @@
 package ua.org.shaddy.anion.streamtools.codec;
 
 import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
+import ua.org.shaddy.anion.streamtools.bitinputstream.BitStreamException;
 import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamByteDecoder {
@@ -24,11 +25,8 @@ public class BitStreamByteDecoder {
 	 * @return
 	 */
 	public int loadByte(int bitCount) {
-		//
-		// TODO: optimize this
-		//
 		if (bitCount > 8){
-			bitCount = 8;
+			throw new BitStreamException("Error, bit count is more than 8:" + bitCount);
 		}
 		if (padding == 0 && bitCount == 8) {
 			return bs.loadByte();

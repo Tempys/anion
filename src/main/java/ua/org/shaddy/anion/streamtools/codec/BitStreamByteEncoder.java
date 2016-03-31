@@ -1,5 +1,6 @@
 package ua.org.shaddy.anion.streamtools.codec;
 
+import ua.org.shaddy.anion.streamtools.bitinputstream.BitStreamException;
 import ua.org.shaddy.anion.streamtools.bitoutputstream.BitOutputStream;
 import ua.org.shaddy.anion.tools.BitTools;
 
@@ -20,13 +21,13 @@ public class BitStreamByteEncoder {
 		writeByte(data, 8);
 	}
 	/**
-	 * writes an bitcount (max 8) to {@link BitOutputStream}, considering padding 
+	 * writes an bitCount (max 8) to {@link BitOutputStream}, considering padding 
 	 * @param data
 	 * @param bitCount
 	 */
 	public void writeByte(int data, int bitCount){
 		if (bitCount > 8){
-			bitCount = 8;
+			throw new BitStreamException("Error, bit count is more than 8:" + bitCount);
 		}
 		if (padding == 0 && bitCount == 8) {
 			bs.writeByte(data);

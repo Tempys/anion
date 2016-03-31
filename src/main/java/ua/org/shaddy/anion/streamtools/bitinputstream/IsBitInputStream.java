@@ -14,7 +14,7 @@ public class IsBitInputStream extends BitInputStream {
 		try {
 			return data.read();
 		} catch (IOException e) {
-		throw new BitStreamParsingException("Error reading input stream", e);
+		throw new BitStreamException("Error reading input stream", e);
 		}
 	}
 
