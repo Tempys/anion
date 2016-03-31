@@ -15,49 +15,51 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 		super(bs);
 	}
 	/**
+	 * function reads a number of bits from a stream, the main difference from {@link BitStreamDecoder#loadLong(int)} is that this function loading bits always in LITTLE_ENDIAN  
+	 * @param size
+	 * @return
+	 */
+	public long loadBits(int size) {
+		long res = 0;
+		int startShift;
+		int times = (size >> 3) - 1;
+		//
+		//	fast multiplication by 8
+		//
+		startShift = times << 3;
+		while (startShift >= 8) {
+			res = res | (((long)loadByte(8)) << startShift);
+			startShift -= 8;
+			size -= 8;
+		}
+		if (size > 0){
+			res = res | loadByte(size);
+		}
+		return res;
+	}
+	/**
 	 * loads {@value size} bytes to int
 	 * 
 	 * @param size
 	 * @return
 	 */
 	public long loadLong(int size) {
-		if (size == 64){
-			return loadLong64();
-		}
-		if (size == 32){
-			return loadInt32();
-		}
 		//
 		// TODO: optimize this code
 		//
-		long res = 0;
-		int startShift;
 		if (byteOrder == ByteOrder.BIG_ENDIAN) {
-			//
-			// INFO: code optimized for no divisions / multiplications
-			//
+			long res = 0;
+			byte startShift;
 			startShift = 0;
 			while (size > 0) {
 				res = res | loadByte(size) << startShift;
 				size -= 8;
 				startShift += 8;
 			}
+			return res;
 		} else {
-			int times = (size >> 3) - 1;
-			//
-			//	fast multiplication by 8
-			//
-			startShift = times << 3;
-			while (startShift >= 8) {
-				res = res | (loadByte(8) << startShift);
-				startShift -= 8;
-				size -= 8;
-			}
-			if (size > 0){
-				res = res | loadByte(size);
-			}
+			return loadBits(size);
 		}
-		return res;
 	}
 	
 	/**

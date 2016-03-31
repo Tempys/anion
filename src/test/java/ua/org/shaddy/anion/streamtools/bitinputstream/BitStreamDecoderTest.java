@@ -1,18 +1,46 @@
 package ua.org.shaddy.anion.streamtools.bitinputstream;
 
 import junit.framework.TestCase;
-import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
-import ua.org.shaddy.anion.streamtools.bitinputstream.ByteBitInputStream;
+import ua.org.shaddy.anion.streamtools.ByteOrder;
 import ua.org.shaddy.anion.streamtools.codec.BitStreamDecoder;
 
 public class BitStreamDecoderTest extends TestCase {
 
 	private static final String TEST_STRING= "test string";
 
-	public void testLoadInt() {
-		/*BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
+	public void testLoadBits() {
+		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
-		assertEquals(0xA1b2c3d4, bsd.loadInt32());*/
+		assertEquals(0xA1b2c3d4L, bsd.loadBits(32));
+		
+		BitInputStream bis1 = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
+		BitStreamDecoder bsd1 = new BitStreamDecoder(bis1);
+		bsd1.setByteOrder(ByteOrder.BIG_ENDIAN);
+		//
+		//	loadBits must not consider a byte order
+		//
+		assertEquals(0xA1b2c3d4L, bsd1.loadBits(32));
+	}
+	
+	public void testLoadLong() {
+		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
+		BitStreamDecoder bsd = new BitStreamDecoder(bis);
+		assertEquals(0xA1b2c3d4L, bsd.loadLong(32));
+		
+		BitInputStream bis1 = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
+		BitStreamDecoder bsd1 = new BitStreamDecoder(bis1);
+		bsd1.setByteOrder(ByteOrder.BIG_ENDIAN);
+		assertEquals(0xd4c3b2A1, bsd1.loadLong(32));
+		
+		
+		BitInputStream bis2 = new ByteBitInputStream(new byte[]{
+				(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4, 
+				(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4
+		});
+		BitStreamDecoder bsd2 = new BitStreamDecoder(bis2);
+		long val = bsd2.loadLong(64);
+		System.out.println(Long.toHexString(val));
+		assertEquals(0xA1b2c3d4A1b2c3d4L, val);
 	}
 
 	public void testLoadInt32() {

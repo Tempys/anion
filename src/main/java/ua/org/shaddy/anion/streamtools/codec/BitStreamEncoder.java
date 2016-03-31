@@ -18,6 +18,25 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 		this.byteOrder = byteOrder;
 	}
 	/**
+	 * function writes number of bits to a stream
+	 * @param data
+	 * @param size
+	 */
+	public void writeBits(long data, int size){
+		int startShift;
+		startShift = (size >>> 3) << 3 ; 
+		if (startShift == size){
+			startShift -= 8;
+		}
+		
+		while (startShift >= 0){
+			writeByte((int)data >>> startShift, size - startShift);
+			startShift -= 8;
+			size = startShift + 8;
+		}
+	}
+	
+	/**
 	 * writes size(max 32) bits of data to bitOutputStream
 	 * @param data
 	 * @param size
@@ -26,8 +45,6 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 		//
 		// TODO: optimize this code
 		//
-		
-		int startShift;
 		if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
 			//
 			// INFO: code optimized for no divisions / multiplications
@@ -41,19 +58,7 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 				writeByte((int)data, size);
 			}
 		} else {
-			//
-			//	fast mod 8
-			//
-			startShift = (size >>> 3) << 3 ; 
-			if (startShift == size){
-				startShift -= 8;
-			}
-			
-			while (startShift >= 0){
-				writeByte((int)data >>> startShift, size - startShift);
-				startShift -= 8;
-				size = startShift + 8;
-			}
+			writeBits(data, size);
 		}
 	}
 	/**
