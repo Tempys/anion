@@ -1,6 +1,8 @@
 package ua.org.shaddy.anion.streamtools.codec;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import ua.org.shaddy.anion.streamtools.bitinputstream.BitStreamException;
 import ua.org.shaddy.anion.streamtools.bitoutputstream.ByteBitOutputStream;
 
 public class BitStreamByteEncoderTest extends TestCase {
@@ -38,5 +40,16 @@ public class BitStreamByteEncoderTest extends TestCase {
 		assertEquals((byte) 255, bos.getData()[0]);
 		assertEquals((byte) 15, bos.getData()[1]);
 	}
-
+	
+	public void testSaveByteWithSizeMoreThan8() {
+		ByteBitOutputStream bos = new ByteBitOutputStream(255);
+		BitStreamByteEncoder enc = new BitStreamByteEncoder(bos);
+		try{
+			enc.writeByte(1, 9);
+			fail("writeByte with byte size of 9 bit must throw an exception");
+		} catch (BitStreamException be){
+			
+		}
+		
+	}
 }

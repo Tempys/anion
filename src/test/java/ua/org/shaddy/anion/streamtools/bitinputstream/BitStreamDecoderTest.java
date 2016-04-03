@@ -62,9 +62,19 @@ public class BitStreamDecoderTest extends TestCase {
 		});
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
 		long val = bsd.loadLong64();
-		System.out.println(Long.toHexString(val));
 		assertEquals(0x1a2b3c4da1b2c3d4L, val);
-		//assertEquals(0x4d3c2b1ad4c3b2a1L, bsd.loadLong64());
+	}
+	
+	public void testLoadLong64BigEndian() {
+		BitInputStream bis = new ByteBitInputStream(new byte[]{
+				(byte) 0x1a, (byte) 0x2b, (byte) 0x3c, (byte) 0x4d,
+				(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4
+		});
+		BitStreamDecoder bsd = new BitStreamDecoder(bis);
+		bsd.setByteOrder(ByteOrder.BIG_ENDIAN);
+		long val = bsd.loadLong64();
+		assertEquals(0xd4c3b2a14d3c2b1aL, val);
+		
 	}
 
 	public void testLoadBoolean() {
