@@ -63,8 +63,16 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 	public void writeInt(int data, int size){
 		writeLong(data, size);
 	}
+	
 	public void writeInt32(int data) {
 		writeLong(data, 32);
+	}
+	/**
+	 * writes 1 bit boolean to output stream
+	 * @param data
+	 */
+	public void writeBoolean(boolean data){
+		writeByte(data ? 1 : 0, 1);
 	}
 	
 	public byte getByteOrder() {
