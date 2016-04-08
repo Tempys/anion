@@ -1,4 +1,4 @@
-package ua.org.shaddy.anion.streamtools.bitinputstream;
+package ua.org.shaddy.anion.tools;
 
 public class BitStreamException extends RuntimeException {
 

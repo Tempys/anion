@@ -2,8 +2,8 @@ package ua.org.shaddy.anion.streamtools.codec;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import ua.org.shaddy.anion.streamtools.bitinputstream.BitStreamException;
 import ua.org.shaddy.anion.streamtools.bitoutputstream.ByteBitOutputStream;
+import ua.org.shaddy.anion.tools.BitStreamException;
 
 public class BitStreamByteEncoderTest extends TestCase {
 

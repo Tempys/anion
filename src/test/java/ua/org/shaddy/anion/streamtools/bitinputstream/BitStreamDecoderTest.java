@@ -3,6 +3,7 @@ package ua.org.shaddy.anion.streamtools.bitinputstream;
 import junit.framework.TestCase;
 import ua.org.shaddy.anion.streamtools.ByteOrder;
 import ua.org.shaddy.anion.streamtools.codec.BitStreamDecoder;
+import ua.org.shaddy.anion.tools.BitStreamException;
 
 public class BitStreamDecoderTest extends TestCase {
 

@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 
 import ua.org.shaddy.anion.streamtools.ByteOrder;
 import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
-import ua.org.shaddy.anion.streamtools.bitinputstream.BitStreamException;
+import ua.org.shaddy.anion.tools.BitStreamException;
 import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamDecoder extends BitStreamByteDecoder {

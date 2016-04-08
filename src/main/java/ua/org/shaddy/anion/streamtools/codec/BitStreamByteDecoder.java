@@ -1,7 +1,7 @@
 package ua.org.shaddy.anion.streamtools.codec;
 
 import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
-import ua.org.shaddy.anion.streamtools.bitinputstream.BitStreamException;
+import ua.org.shaddy.anion.tools.BitStreamException;
 import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamByteDecoder {
