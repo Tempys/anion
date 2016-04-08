@@ -74,6 +74,23 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 	public void writeBoolean(boolean data){
 		writeByte(data ? 1 : 0, 1);
 	}
+	/**
+	 * writes byteArray to output stream
+	 * @param data
+	 */
+	public void writeByteArray(byte[] data){
+		writeByteArray(data, data.length);
+	}
+	/**
+	 * writes size bytes to output stream from byte array
+	 * @param data
+	 * @param size
+	 */
+	public void writeByteArray(byte[] data, int size){
+		for (int i = 0; i < size; i ++){
+			writeByte(data[i]);
+		}
+	}
 	
 	public byte getByteOrder() {
 		return byteOrder;

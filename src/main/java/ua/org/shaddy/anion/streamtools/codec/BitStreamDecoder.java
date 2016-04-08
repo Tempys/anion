@@ -154,11 +154,28 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 	 */
 	public byte[] loadByteArray(int size) {
 		byte[] byteArray = new byte[size];
+		loadByteArray(byteArray);
+		return byteArray;
+	}
+	/**
+	 * fills byteArrray from input stream
+	 * @param byteArray
+	 */
+	public void loadByteArray(byte[] byteArray) {
+		loadByteArray(byteArray, byteArray.length);
+	}
+	/**
+	 * fills size bytes of byteArrray from input stream
+	 * @param byteArray
+	 * @param size
+	 */
+	public void loadByteArray(byte[] byteArray, int size) {
 		for (int i = 0; i < size; i++){
 			byteArray[i] = (byte) loadByte();
 		}
-		return byteArray;
 	}
+	
+	
 	/**
 	 * loads a string from stream
 	 * @param size

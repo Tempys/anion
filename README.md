@@ -9,5 +9,5 @@ repositories {
 }
 
 dependencies {
-  compile "ua.org.shaddy:anion:1.0.5-SNAPSHOT"
+  compile "ua.org.shaddy:anion:1.0.6-SNAPSHOT"
 }```
