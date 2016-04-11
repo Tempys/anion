@@ -33,7 +33,7 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 			size -= 8;
 		}
 		if (size > 0){
-			res = res | loadByte(size);
+			res = res | loadByte(size > 8 ? 8 : size );
 		}
 		return res;
 	}
