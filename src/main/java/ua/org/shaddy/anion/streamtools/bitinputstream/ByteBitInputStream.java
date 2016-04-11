@@ -1,5 +1,6 @@
 package ua.org.shaddy.anion.streamtools.bitinputstream;
 
+import ua.org.shaddy.anion.tools.BitStreamEndsException;
 import ua.org.shaddy.anion.tools.BitTools;
 
 public class ByteBitInputStream extends BitInputStream {
@@ -10,6 +11,9 @@ public class ByteBitInputStream extends BitInputStream {
 	}
 	
 	protected int loadByteNative() {
+		if (pointer > data.length - 1){
+			throw new BitStreamEndsException();
+		}
 		return BitTools.byteToUnsigned(data[pointer++]);
 	}
 	

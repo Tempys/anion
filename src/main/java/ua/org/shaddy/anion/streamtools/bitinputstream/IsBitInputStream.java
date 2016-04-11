@@ -3,6 +3,7 @@ package ua.org.shaddy.anion.streamtools.bitinputstream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import ua.org.shaddy.anion.tools.BitStreamEndsException;
 import ua.org.shaddy.anion.tools.BitStreamException;
 
 public class IsBitInputStream extends BitInputStream {
@@ -14,7 +15,11 @@ public class IsBitInputStream extends BitInputStream {
 	
 	protected int loadByteNative() {
 		try {
-			return data.read();
+			int res = data.read();
+			if (res == -1){
+				throw new BitStreamEndsException();
+			}
+			return res;
 		} catch (IOException e) {
 		throw new BitStreamException("Error reading input stream", e);
 		}

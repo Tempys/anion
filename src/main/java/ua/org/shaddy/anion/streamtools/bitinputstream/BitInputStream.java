@@ -1,5 +1,7 @@
 package ua.org.shaddy.anion.streamtools.bitinputstream;
 
+import ua.org.shaddy.anion.tools.BitStreamEndsException;
+
 /**
  * so called stream to load data by 1 byte
  * @author shaddy
@@ -8,7 +10,7 @@ package ua.org.shaddy.anion.streamtools.bitinputstream;
 public abstract class BitInputStream {
 	protected long counter = 0;
 	/**
-	 * loads single byte from bit stream and increments a counter
+	 * loads single byte from bit stream and increments a counter, throws {@link BitStreamEndsException} when stream ends;
 	 * @return
 	 */
 	protected abstract int loadByteNative();
