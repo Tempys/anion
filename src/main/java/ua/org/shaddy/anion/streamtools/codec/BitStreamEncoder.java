@@ -2,7 +2,6 @@ package ua.org.shaddy.anion.streamtools.codec;
 
 import ua.org.shaddy.anion.streamtools.ByteOrder;
 import ua.org.shaddy.anion.streamtools.bitoutputstream.BitOutputStream;
-import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamEncoder extends BitStreamByteEncoder{
 	private byte byteOrder;
@@ -13,6 +12,7 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 	public BitStreamEncoder(BitOutputStream bs) {
 		this(bs, ByteOrder.LITTLE_ENDIAN);
 	}
+	
 	public BitStreamEncoder(BitOutputStream bs, byte byteOrder) {
 		super(bs);
 		this.byteOrder = byteOrder;

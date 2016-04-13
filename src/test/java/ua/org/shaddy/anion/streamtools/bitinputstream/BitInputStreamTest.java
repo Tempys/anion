@@ -3,7 +3,25 @@ package ua.org.shaddy.anion.streamtools.bitinputstream;
 import junit.framework.TestCase;
 
 public class BitInputStreamTest extends TestCase {
-
+	public void testByteLoading(){
+		BitInputStream bs = new ByteBitInputStream(new byte[] {1, 2, 3, 4});
+		assertEquals(1, bs.loadByte());
+		assertEquals(2, bs.loadByte());
+		assertEquals(3, bs.loadByte());
+		assertEquals(4, bs.loadByte());
+	}
+	
+	public void testCounter(){
+		BitInputStream bs = new ByteBitInputStream(new byte[] {1, 2, 3, 4});
+		assertEquals(0, bs.getCounter());
+		bs.loadByte();
+		assertEquals(1, bs.getCounter());
+		bs.loadByte();
+		assertEquals(2, bs.getCounter());
+		bs.resetCounter();
+		assertEquals(0, bs.getCounter());
+	}
+	
 	public void testLoadByte() {
 		BitInputStream bis = new BitInputStream(){
 			int value = 0;
