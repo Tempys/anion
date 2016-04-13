@@ -67,11 +67,12 @@ public class BitStreamByteEncoderTest extends TestCase {
 	public void testWriteBitsLoop(){
 		ByteBitOutputStream bos = new ByteBitOutputStream(256);
 		BitStreamByteEncoder bse = new BitStreamByteEncoder(bos);
-		for (int i = 0; i < 256 * 8; i++){
-			bse.writeByte(1, 1);
+		for (int i = 0; i < 256; i++){
+			bse.writeByte((byte) (i & 0x0f), 4);
+			bse.writeByte((byte) ((i >> 4) & 0x0f), 4);
 		}
 		for (int i = 0; i < 256; i++){
-			assertEquals((byte) 0xff, (byte) bos.getData()[i]);
+			assertEquals((byte) i, (byte) bos.getData()[i]);
 		}
 	}
 	
