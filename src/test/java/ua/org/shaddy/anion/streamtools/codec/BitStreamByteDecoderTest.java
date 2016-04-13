@@ -66,6 +66,18 @@ public class BitStreamByteDecoderTest extends TestCase{
 			assertEquals((byte) i, (byte) bse.loadByte());
 		}
 	}
+	public void testReadBytesPartsLoop(){
+		byte bytes[] = new byte[256];
+		for (int i = 0; i < 256; i++){
+			bytes[i] = (byte) i;
+		}
+		ByteBitInputStream bos = new ByteBitInputStream(bytes);
+		BitStreamByteDecoder bse = new BitStreamByteDecoder(bos);
+		for (int i = 0; i < 256; i++){
+			assertEquals((byte) (i & 0x0f), (byte) bse.loadByte(4));
+			assertEquals((byte) (i & 0xf0), (byte) (bse.loadByte(4) << 4));
+		}
+	}
 	
 	public void testReadBitsLoop(){
 		byte bytes[] = new byte[256];
