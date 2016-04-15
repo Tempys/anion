@@ -8,7 +8,9 @@ import ua.org.shaddy.anion.streamtools.bitoutputstream.ByteBitOutputStream;
 
 public class BitStreamEncoderDecoderTest extends TestCase {
 	private static final int TEST_COUNT = 255;
-	private static final int INT_SIZE = 11;
+	
+	private static final int INT1_SIZE = 12;
+	private static final int INT2_SIZE = 16 - INT1_SIZE;
 
 	public void testEncodeDecodeLoop(){
 		byte []input = new byte[TEST_COUNT];
@@ -19,13 +21,10 @@ public class BitStreamEncoderDecoderTest extends TestCase {
 		BitStreamDecoder dec = new BitStreamDecoder(bis);
 		ByteBitOutputStream bos = new ByteBitOutputStream(255);
 		BitStreamEncoder benc = new BitStreamEncoder(bos);
-		for (int i = 0; i < TEST_COUNT / 2; i++){
-			benc.writeBoolean(dec.loadBoolean());
-			benc.writeBoolean(dec.loadBoolean());
-			benc.writeBoolean(dec.loadBoolean());
-			benc.writeBoolean(dec.loadBoolean());
-			benc.writeBoolean(dec.loadBoolean());
-			benc.writeBits(dec.loadBits(INT_SIZE), INT_SIZE);	
+		for (int i = 0; i < TEST_COUNT / 2 ; i++){
+			System.out.println(i);
+			benc.writeBits(dec.loadBits(INT1_SIZE), INT1_SIZE);
+			benc.writeBits(dec.loadBits(INT2_SIZE), INT2_SIZE);
 		}
 		System.out.println(Arrays.toString(input));
 		System.out.println(Arrays.toString(bos.getData()));
@@ -33,6 +32,7 @@ public class BitStreamEncoderDecoderTest extends TestCase {
 			assertEquals((byte) input[i], (byte) bos.getData()[i]);
 		}
 	}
+	
 	public void testEncodeDecodeByteLoop(){
 		byte []input = new byte[TEST_COUNT];
 		for (int i = 0; i < TEST_COUNT; i++){
@@ -66,6 +66,7 @@ public class BitStreamEncoderDecoderTest extends TestCase {
 			assertEquals(input[i], (byte) bos.getData()[i]);
 		}
 	}
+	
 	
 	public void testEncodeDecodeBitLoop(){
 		byte []input = new byte[TEST_COUNT];

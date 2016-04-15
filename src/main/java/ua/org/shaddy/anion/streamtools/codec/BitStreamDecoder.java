@@ -21,21 +21,16 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 	 */
 	public long loadBits(int size) {
 		long res = 0;
-		int startShift;
-		int times = (size >> 3) - 1;
-		//
-		//	fast multiplication by 8
-		//
-		startShift = times << 3;
-		while (startShift >= 8) {
-			res = res | ((long)loadByte(8) << startShift);
-			startShift -= 8;
+		byte startShift;
+		startShift = 0;
+		while (size > 0) {
+			res = res | (long) loadByte(size > 8 ? 8 : size) << startShift;
 			size -= 8;
-		}
-		if (size > 0){
-			res = res | loadByte(size > 8 ? 8 : size );
+			startShift += 8;
 		}
 		return res;
+		
+		
 	}
 	/**
 	 * loads {@value size} bytes to int
@@ -48,17 +43,25 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 		// TODO: optimize this code
 		//
 		if (byteOrder == ByteOrder.BIG_ENDIAN) {
+			return loadBits(size);
+		} else {
+			
 			long res = 0;
-			byte startShift;
-			startShift = 0;
-			while (size > 0) {
-				res = res | (long) loadByte(size > 8 ? 8 : size) << startShift;
+			int startShift;
+			int times = (size >> 3) - 1;
+			//
+			//	fast multiplication by 8
+			//
+			startShift = times << 3;
+			while (startShift >= 8) {
+				res = res | ((long)loadByte(8) << startShift);
+				startShift -= 8;
 				size -= 8;
-				startShift += 8;
+			}
+			if (size > 0){
+				res = res | loadByte(size > 8 ? 8 : size );
 			}
 			return res;
-		} else {
-			return loadBits(size);
 		}
 	}
 	

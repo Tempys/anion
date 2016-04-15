@@ -23,16 +23,13 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 	 * @param size
 	 */
 	public void writeBits(long data, int size){
-		int startShift;
-		startShift = (size >>> 3) << 3 ; 
-		if (startShift == size){
-			startShift -= 8;
+		while (size > 8) {
+			writeByte((int)data);
+			data = data >>> 8;
+			size -= 8;
 		}
-		
-		while (startShift >= 0){
-			writeByte((int)(data >>> startShift), size - startShift);
-			startShift -= 8;
-			size = startShift + 8;
+		if (size > 0){
+			writeByte((int)data, size);
 		}
 	}
 	
@@ -43,16 +40,20 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 	 */
 	public void writeLong(long data, int size){
 		if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
-			while (size > 8) {
-				writeByte((int)data);
-				data = data >>> 8;
-				size -= 8;
-			}
-			if (size > 0){
-				writeByte((int)data, size);
-			}
-		} else {
 			writeBits(data, size);
+		} else {
+			int startShift;
+			startShift = (size >>> 3) << 3 ; 
+			if (startShift == size){
+				startShift -= 8;
+			}
+			
+			while (startShift >= 0){
+				writeByte((int)(data >>> startShift), size - startShift);
+				startShift -= 8;
+				size = startShift + 8;
+			}
+			
 		}
 	}
 	/**

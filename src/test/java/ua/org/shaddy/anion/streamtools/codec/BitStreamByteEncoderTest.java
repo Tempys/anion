@@ -1,5 +1,7 @@
 package ua.org.shaddy.anion.streamtools.codec;
 
+import java.util.Arrays;
+
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import ua.org.shaddy.anion.streamtools.ByteOrder;
@@ -75,5 +77,14 @@ public class BitStreamByteEncoderTest extends TestCase {
 			assertEquals((byte) i, (byte) bos.getData()[i]);
 		}
 	}
+	
+	/*public void testWritepartialBytes(){
+		ByteBitOutputStream bos = new ByteBitOutputStream(5);
+		BitStreamByteEncoder bse = new BitStreamByteEncoder(bos);
+		bse.writeByte((byte) 0, 3);
+		bse.writeByte((byte) 32, 8);
+		bse.writeByte((byte) 0, 8);
+		System.out.println(Arrays.toString(bos.getData()));
+	}*/
 	
 }
