@@ -99,7 +99,6 @@ public class BitStreamEncoderTest extends TestCase {
 		ByteBitOutputStream bos = new ByteBitOutputStream(6);
 		BitStreamEncoder bse = new BitStreamEncoder(bos, ByteOrder.BIG_ENDIAN);
 		bse.writeLong(0x01L << 8 | 0x02L, 12);
-		System.out.println(Arrays.toString(bos.getData()));
 		assertEquals((byte) 33, bos.getData()[0]);
 		assertEquals((byte) 0, bos.getData()[1]);
 	}

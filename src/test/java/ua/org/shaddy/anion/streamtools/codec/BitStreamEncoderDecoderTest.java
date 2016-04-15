@@ -7,7 +7,7 @@ import ua.org.shaddy.anion.streamtools.bitinputstream.ByteBitInputStream;
 import ua.org.shaddy.anion.streamtools.bitoutputstream.ByteBitOutputStream;
 
 public class BitStreamEncoderDecoderTest extends TestCase {
-	private static final int TEST_COUNT = 255;
+	private static final int TEST_COUNT = 256;
 	
 	private static final int INT1_SIZE = 12;
 	private static final int INT2_SIZE = 16 - INT1_SIZE;
@@ -19,15 +19,15 @@ public class BitStreamEncoderDecoderTest extends TestCase {
 		}
 		ByteBitInputStream bis = new ByteBitInputStream(input);
 		BitStreamDecoder dec = new BitStreamDecoder(bis);
-		ByteBitOutputStream bos = new ByteBitOutputStream(255);
+		ByteBitOutputStream bos = new ByteBitOutputStream(TEST_COUNT);
 		BitStreamEncoder benc = new BitStreamEncoder(bos);
 		for (int i = 0; i < TEST_COUNT / 2 ; i++){
-			System.out.println(i);
+			if (i == TEST_COUNT / 2){
+				System.out.println("the last");
+			}
 			benc.writeBits(dec.loadBits(INT1_SIZE), INT1_SIZE);
 			benc.writeBits(dec.loadBits(INT2_SIZE), INT2_SIZE);
 		}
-		System.out.println(Arrays.toString(input));
-		System.out.println(Arrays.toString(bos.getData()));
 		for (int i = 0; i < TEST_COUNT; i ++){
 			assertEquals((byte) input[i], (byte) bos.getData()[i]);
 		}
@@ -40,7 +40,7 @@ public class BitStreamEncoderDecoderTest extends TestCase {
 		}
 		ByteBitInputStream bis = new ByteBitInputStream(input);
 		BitStreamDecoder dec = new BitStreamDecoder(bis);
-		ByteBitOutputStream bos = new ByteBitOutputStream(255);
+		ByteBitOutputStream bos = new ByteBitOutputStream(TEST_COUNT);
 		BitStreamEncoder benc = new BitStreamEncoder(bos);
 		for (int i = 0; i < TEST_COUNT; i++){
 			benc.writeByte(dec.loadByte());
@@ -56,7 +56,7 @@ public class BitStreamEncoderDecoderTest extends TestCase {
 		}
 		ByteBitInputStream bis = new ByteBitInputStream(input);
 		BitStreamDecoder dec = new BitStreamDecoder(bis);
-		ByteBitOutputStream bos = new ByteBitOutputStream(255);
+		ByteBitOutputStream bos = new ByteBitOutputStream(TEST_COUNT);
 		BitStreamEncoder benc = new BitStreamEncoder(bos);
 		for (int i = 0; i < TEST_COUNT; i++){
 			benc.writeByte(dec.loadByte(4), 4);
@@ -75,7 +75,7 @@ public class BitStreamEncoderDecoderTest extends TestCase {
 		}
 		ByteBitInputStream bis = new ByteBitInputStream(input);
 		BitStreamDecoder dec = new BitStreamDecoder(bis);
-		ByteBitOutputStream bos = new ByteBitOutputStream(255);
+		ByteBitOutputStream bos = new ByteBitOutputStream(TEST_COUNT);
 		BitStreamEncoder benc = new BitStreamEncoder(bos);
 		for (int i = 0; i < TEST_COUNT * 8; i++){
 			benc.writeBoolean(dec.loadBoolean());
