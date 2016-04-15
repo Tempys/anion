@@ -61,7 +61,6 @@ public class BitStreamDecoderTest extends TestCase {
 		});
 		BitStreamDecoder bsd2 = new BitStreamDecoder(bis2);
 		long val = bsd2.loadLong(64);
-		System.out.println(Long.toHexString(val));
 		assertEquals(0xA1b2c3d4A1b2c3d4L, val);
 	}
 

@@ -22,9 +22,6 @@ public class BitStreamEncoderDecoderTest extends TestCase {
 		ByteBitOutputStream bos = new ByteBitOutputStream(TEST_COUNT);
 		BitStreamEncoder benc = new BitStreamEncoder(bos);
 		for (int i = 0; i < TEST_COUNT / 2 ; i++){
-			if (i == TEST_COUNT / 2){
-				System.out.println("the last");
-			}
 			benc.writeBits(dec.loadBits(INT1_SIZE), INT1_SIZE);
 			benc.writeBits(dec.loadBits(INT2_SIZE), INT2_SIZE);
 		}
