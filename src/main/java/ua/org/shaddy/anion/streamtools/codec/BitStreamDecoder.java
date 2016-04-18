@@ -9,11 +9,17 @@ import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamDecoder extends BitStreamByteDecoder {
 
-	private byte byteOrder = ByteOrder.LITTLE_ENDIAN;
+	private byte byteOrder = ByteOrder.BIG_ENDIAN;
 
 	public BitStreamDecoder(BitInputStream bs) {
 		super(bs);
 	}
+	
+	public BitStreamDecoder(BitInputStream bs, byte byteOrder) {
+		super(bs);
+		this.byteOrder = byteOrder;
+	}
+	
 	/**
 	 * function reads a number of bits from a stream, the main difference from {@link BitStreamDecoder#loadLong(int)} is that this function loading bits always in LITTLE_ENDIAN  
 	 * @param size
@@ -21,12 +27,9 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 	 */
 	public long loadBits(int size) {
 		long res = 0;
-		byte startShift;
-		startShift = 0;
 		while (size > 0) {
-			res = ((long) res << startShift) | loadByte(size > 8 ? 8 : size);
+			res = ((long) res << 8) | loadByte(size > 8 ? 8 : size);
 			size -= 8;
-			startShift += 8;
 		}
 		return res;
 		
@@ -45,21 +48,12 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 		if (byteOrder == ByteOrder.BIG_ENDIAN) {
 			return loadBits(size);
 		} else {
-			
 			long res = 0;
-			int startShift;
-			int times = (size >> 3) - 1;
-			//
-			//	fast multiplication by 8
-			//
-			startShift = times << 3;
-			while (startShift >= 8) {
-				res = res | ((long)loadByte(8) << startShift);
-				startShift -= 8;
+			long shift = 0;
+			while (size > 0) {
+				res = res | ((long)loadByte(size > 8 ? 8 : size) << shift);
 				size -= 8;
-			}
-			if (size > 0){
-				res = res | loadByte(size > 8 ? 8 : size );
+				shift += 8;
 			}
 			return res;
 		}
@@ -84,10 +78,9 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 		int r1 = loadInt16();
 		int r2 = loadInt16();
 		if (byteOrder == ByteOrder.BIG_ENDIAN) {
-			return (r2  << 16) | r1 ;
-		} else {
 			return (r1  << 16) | r2; 
-			
+		} else {
+			return (r2  << 16) | r1 ;
 		}
 	}
 
@@ -99,9 +92,9 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 	public int loadInt16() {
 		int res;
 		if (byteOrder == ByteOrder.BIG_ENDIAN) {
-			res = loadByte() | (loadByte() << 8);
-		} else {
 			res = (loadByte() << 8) | loadByte();
+		} else {
+			res = loadByte() | (loadByte() << 8);
 		}
 		return res;
 	}
@@ -116,9 +109,9 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 		int r1 = loadInt32();
 		int r2 = loadInt32();
 		if (byteOrder == ByteOrder.BIG_ENDIAN) {
-			res = BitTools.intToLongUnsigned(r2) << 32 | BitTools.intToLongUnsigned(r1);
-		} else {
 			res = BitTools.intToLongUnsigned(r1) << 32 | BitTools.intToLongUnsigned(r2);
+		} else {
+			res = BitTools.intToLongUnsigned(r2) << 32 | BitTools.intToLongUnsigned(r1);
 		}
 		return res;
 	}

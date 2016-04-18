@@ -32,14 +32,14 @@ public class BitStreamByteDecoder {
 			return bs.loadByte();
 		} else if (padding == 0) {
 			int loadedByte = bs.loadByte();
-			int data = (loadedByte >>> (8 - bitCount)) | BitTools.backBitMask[bitCount] ;
+			int data = (loadedByte >>> (8 - bitCount)) & BitTools.bitMask[bitCount] ;
 			padding = bitCount;
 			lastByte = loadedByte;
 			return data;
 		} else {
 			int countAndPadding = bitCount + padding; 
 			if ( countAndPadding <= 8 ) {
-				int data = (lastByte >>> padding) & BitTools.invertedBackBitMask[bitCount + padding];
+				int data = (lastByte >>> (8 - countAndPadding)) & BitTools.bitMask[bitCount];
 				padding += bitCount;
 				if (padding == 8) {
 					padding = 0;
