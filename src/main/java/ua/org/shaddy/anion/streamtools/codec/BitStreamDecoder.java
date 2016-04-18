@@ -24,7 +24,7 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 		byte startShift;
 		startShift = 0;
 		while (size > 0) {
-			res = res | (long) loadByte(size > 8 ? 8 : size) << startShift;
+			res = ((long) res << startShift) | loadByte(size > 8 ? 8 : size);
 			size -= 8;
 			startShift += 8;
 		}

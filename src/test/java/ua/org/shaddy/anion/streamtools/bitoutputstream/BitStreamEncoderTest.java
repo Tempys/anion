@@ -15,6 +15,15 @@ public class BitStreamEncoderTest extends TestCase {
 		bse.writeByte(255);
 		assertEquals((byte) 255, bos.getData()[0]);
 	}
+	public void testWriteBitsFirstSmall() {
+		ByteBitOutputStream bos = new ByteBitOutputStream(5);
+		BitStreamEncoder bse = new BitStreamEncoder(bos);
+		bse.writeBoolean(false);
+		bse.writeBoolean(false);
+		bse.writeBits(1, 14);
+		assertEquals(4, bos.getData()[0]);
+		assertEquals(0, bos.getData()[1]);
+	}
 	
 	public void testWriteLong() {
 		ByteBitOutputStream bos = new ByteBitOutputStream(6);

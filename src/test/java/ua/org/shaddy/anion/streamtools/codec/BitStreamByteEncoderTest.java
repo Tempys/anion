@@ -17,6 +17,7 @@ public class BitStreamByteEncoderTest extends TestCase {
 			enc.writeByte(i);
 			assertEquals((byte)i, bos.getData()[i]);	
 		}
+		assertEquals(255, bos.getCounter());
 	}
 	public void testSaveByteWithSize() {
 		ByteBitOutputStream bos = new ByteBitOutputStream(255);
@@ -32,6 +33,7 @@ public class BitStreamByteEncoderTest extends TestCase {
 		assertEquals(3, bos.getData()[2]);
 		enc.writeByte(1, 7);
 		assertEquals(2, bos.getData()[3]);
+		assertEquals(4, bos.getCounter());
 	}
 	
 	public void testPad(){
@@ -42,6 +44,7 @@ public class BitStreamByteEncoderTest extends TestCase {
 		enc.pad();
 		assertEquals((byte) 255, bos.getData()[0]);
 		assertEquals((byte) 15, bos.getData()[1]);
+		assertEquals(2, bos.getCounter());
 	}
 	
 	public void testSaveByteWithSizeMoreThan8() {
@@ -64,6 +67,7 @@ public class BitStreamByteEncoderTest extends TestCase {
 		for (int i = 0; i < 256; i++){
 			assertEquals((byte) i, (byte) bos.getData()[i]);
 		}
+		assertEquals(256, bos.getCounter());
 	}
 	
 	public void testWriteBitsLoop(){
@@ -76,6 +80,7 @@ public class BitStreamByteEncoderTest extends TestCase {
 		for (int i = 0; i < 256; i++){
 			assertEquals((byte) i, (byte) bos.getData()[i]);
 		}
+		assertEquals(256, bos.getCounter());
 	}
 	
 	/*public void testWritepartialBytes(){

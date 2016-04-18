@@ -15,6 +15,7 @@ public class BitStreamByteDecoderTest extends TestCase{
 		assertEquals(0x0b, bCodec.loadByte());
 		assertEquals(0x0c, bCodec.loadByte());
 		assertEquals(0x0d, bCodec.loadByte());
+		assertEquals(4, bs.getCounter());
 	}
 	
 	public void testBitLoading(){
@@ -41,17 +42,19 @@ public class BitStreamByteDecoderTest extends TestCase{
 	}
 	
 	public void testBitLoadingPaddings(){
-		BitInputStream bs = new ByteBitInputStream(new byte[] {(byte) 0xcc, 0x07, 0x0c, 0x0d});
+		BitInputStream bs = new ByteBitInputStream(new byte[] {(byte) 0xfa, (byte) 0x0b});
 		BitStreamByteDecoder bCodec = new BitStreamByteDecoder(bs);
-		assertEquals(0x0c, bCodec.loadByte(4));
+		assertEquals("0f", Long.toHexString(bCodec.loadByte(4)));
 		assertEquals(4, bCodec.getPadding());
-		assertEquals(0x67, bCodec.loadByte(7));
+		assertEquals("a0", Long.toHexString(bCodec.loadByte(8)));
+		assertEquals(2, bs.getCounter());
 	}
 	
 	public void testReadBytesNegative(){
 		BitInputStream bs = new ByteBitInputStream(new byte[] {(byte) 128});
 		BitStreamByteDecoder bCodec = new BitStreamByteDecoder(bs);
 		assertEquals((byte) 128, (byte) bCodec.loadByte());
+		assertEquals(1, bs.getCounter());
 	}
 	
 
@@ -60,11 +63,12 @@ public class BitStreamByteDecoderTest extends TestCase{
 		for (int i = 0; i < 256; i++){
 			bytes[i] = (byte) i;
 		}
-		ByteBitInputStream bos = new ByteBitInputStream(bytes);
-		BitStreamByteDecoder bse = new BitStreamByteDecoder(bos);
+		ByteBitInputStream bis = new ByteBitInputStream(bytes);
+		BitStreamByteDecoder bse = new BitStreamByteDecoder(bis);
 		for (int i = 0; i < 256; i++){
 			assertEquals((byte) i, (byte) bse.loadByte());
 		}
+		assertEquals(256, bis.getCounter());
 	}
 	public void testReadBytesPartsLoop(){
 		byte bytes[] = new byte[256];
@@ -106,11 +110,12 @@ public class BitStreamByteDecoderTest extends TestCase{
 		for (int i = 0; i < 256; i++){
 			bytes[i] = (byte) 0xff;
 		}
-		ByteBitInputStream bos = new ByteBitInputStream(bytes);
-		BitStreamByteDecoder bse = new BitStreamByteDecoder(bos);
+		ByteBitInputStream bis = new ByteBitInputStream(bytes);
+		BitStreamByteDecoder bse = new BitStreamByteDecoder(bis);
 		for (int i = 0; i < 256 * 8; i++){
 			assertEquals(1, (byte) bse.loadByte(1));
 		}
+		assertEquals(256, bis.getCounter());
 	}
 	
 }

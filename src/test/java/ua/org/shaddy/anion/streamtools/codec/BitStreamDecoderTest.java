@@ -33,7 +33,7 @@ public class BitStreamDecoderTest extends TestCase {
 	public void testLoadBits() {
 		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
-		assertEquals(0xd4c3b2a1L, bsd.loadBits(32));
+		assertEquals("a1b2c3d4", Long.toHexString(bsd.loadBits(32)));
 		
 		BitInputStream bis1 = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
 		BitStreamDecoder bsd1 = new BitStreamDecoder(bis1);
@@ -41,7 +41,15 @@ public class BitStreamDecoderTest extends TestCase {
 		//
 		//	loadBits must not consider a byte order
 		//
-		assertEquals(0xd4c3b2a1L, bsd1.loadBits(32));
+		assertEquals("0xa1b2c3d4", Long.toHexString(bsd1.loadBits(32)));
+	}
+	
+	public void testLoadBitsfirst() {
+		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 0, (byte) 0x1});
+		BitStreamDecoder bsd = new BitStreamDecoder(bis);
+		assertFalse(bsd.loadBoolean());
+		assertFalse(bsd.loadBoolean());
+		assertEquals(4, bsd.loadBits(14));	
 	}
 	
 	public void testLoadLong() {
