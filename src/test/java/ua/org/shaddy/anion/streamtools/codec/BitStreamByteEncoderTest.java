@@ -1,10 +1,6 @@
 package ua.org.shaddy.anion.streamtools.codec;
 
-import java.util.Arrays;
-
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import ua.org.shaddy.anion.streamtools.ByteOrder;
 import ua.org.shaddy.anion.streamtools.bitoutputstream.ByteBitOutputStream;
 import ua.org.shaddy.anion.tools.BitStreamException;
 

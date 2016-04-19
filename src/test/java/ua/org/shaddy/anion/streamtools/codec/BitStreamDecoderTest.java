@@ -156,8 +156,7 @@ public class BitStreamDecoderTest extends TestCase {
 		try{
 			String str = bsd.loadString(TEST_STRING.length(), "utf-88");
 			fail("Exception is expected, but not thrown");
-		} catch (Throwable t){
-			assertTrue(t instanceof BitStreamException);
+		} catch (BitStreamException t){
 		}
 	}
 	

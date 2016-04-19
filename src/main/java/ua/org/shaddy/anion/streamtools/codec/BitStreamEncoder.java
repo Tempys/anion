@@ -10,7 +10,7 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 	 * @param bs
 	 */
 	public BitStreamEncoder(BitOutputStream bs) {
-		this(bs, ByteOrder.LITTLE_ENDIAN);
+		this(bs, ByteOrder.BIG_ENDIAN);
 	}
 	
 	public BitStreamEncoder(BitOutputStream bs, byte byteOrder) {
@@ -39,7 +39,7 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 	 * @param size
 	 */
 	public void writeLong(long data, int size){
-		if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
+		if (byteOrder == ByteOrder.BIG_ENDIAN) {
 			writeBits(data, size);
 		} else {
 			int startShift;

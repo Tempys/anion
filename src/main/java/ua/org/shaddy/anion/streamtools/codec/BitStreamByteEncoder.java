@@ -32,11 +32,12 @@ public class BitStreamByteEncoder {
 		if (padding == 0 && bitCount == 8) {
 			bs.writeByte(data);
 		} else if (padding == 0){
-			lastByte = data;
+			lastByte = (data << (8 - bitCount)) & BitTools.backBitMask[bitCount] ;
 			padding = bitCount;
 		} else {
-			if (bitCount + padding <= 8) {
-				lastByte = (data << padding) | (BitTools.bitMask[padding] & lastByte);
+			int countAndPadding = bitCount + padding; 
+			if (countAndPadding <= 8) {
+				lastByte = (data << (8 - countAndPadding)) | (BitTools.backBitMask[padding] & lastByte);
 				padding += bitCount;
 				if (padding == 8) {
 					padding = 0;
