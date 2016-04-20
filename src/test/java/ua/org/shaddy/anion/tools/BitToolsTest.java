@@ -21,6 +21,7 @@ public class BitToolsTest extends TestCase {
 		assertEquals((byte) -127, checkConversion((byte) -127));
 		assertEquals((byte) 50, checkConversion((byte) 50));
 		assertEquals((byte) -50, checkConversion((byte) -50));
+		assertEquals((byte) -16, checkConversion((byte) -16));
 	}
 	
 	public void testIntToLong(){

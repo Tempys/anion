@@ -22,8 +22,11 @@ public class BitStreamEncoderDecoderTest extends TestCase {
 		ByteBitOutputStream bos = new ByteBitOutputStream(TEST_COUNT);
 		BitStreamEncoder benc = new BitStreamEncoder(bos);
 		for (int i = 0; i < TEST_COUNT / 2 ; i++){
-			benc.writeBits(dec.loadBits(INT1_SIZE), INT1_SIZE);
-			benc.writeBits(dec.loadBits(INT2_SIZE), INT2_SIZE);
+			long res1 = dec.loadBits(INT1_SIZE);
+			benc.writeBits(res1, INT1_SIZE);
+			long res2 = dec.loadBits(INT2_SIZE);			
+			benc.writeBits(res2, INT2_SIZE);
+			//System.out.println(res1 + ":" + res2 + ":" + Arrays.toString(bos.getData()));
 		}
 		for (int i = 0; i < TEST_COUNT; i ++){
 			assertEquals((byte) input[i], (byte) bos.getData()[i]);
@@ -46,7 +49,7 @@ public class BitStreamEncoderDecoderTest extends TestCase {
 			benc.writeBoolean(dec.loadBoolean());
 			benc.writeBits(dec.loadBits(14), 14);
 		}
-		System.out.println(Arrays.toString(bos.getData()));
+		//System.out.println(Arrays.toString(bos.getData()));
 		for (int i = 0; i < TEST_COUNT; i ++){
 			assertEquals((byte) input[i], (byte) bos.getData()[i]);
 		}

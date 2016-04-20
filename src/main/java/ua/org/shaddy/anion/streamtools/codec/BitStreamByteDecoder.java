@@ -31,10 +31,9 @@ public class BitStreamByteDecoder {
 		if (padding == 0 && bitCount == 8) {
 			return bs.loadByte();
 		} else if (padding == 0) {
-			int loadedByte = bs.loadByte();
-			int data = (loadedByte >>> (8 - bitCount)) & BitTools.bitMask[bitCount] ;
+			lastByte = bs.loadByte();
+			int data = (lastByte >>> (8 - bitCount)) & BitTools.bitMask[bitCount] ;
 			padding = bitCount;
-			lastByte = loadedByte;
 			return data;
 		} else {
 			int countAndPadding = bitCount + padding; 
