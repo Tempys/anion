@@ -39,7 +39,6 @@ public class BitStreamByteEncoder {
 				//		|_| 3 bits
 				lastByte = (data << (8 - bitCount)) & BitTools.invertedBackBitMask[bitCount] ;
 				padding = bitCount;
-				
 			}			
 		} else {
 			int countAndPadding = bitCount + padding; 
@@ -50,7 +49,6 @@ public class BitStreamByteEncoder {
 					padding = 0;
 					bs.writeByte(lastByte);
 				}
-				return;
 			} else {
 				int firstBitCount = 8 - padding;
 				try{

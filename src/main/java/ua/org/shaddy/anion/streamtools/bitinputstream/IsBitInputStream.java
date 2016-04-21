@@ -24,5 +24,13 @@ public class IsBitInputStream extends BitInputStream {
 		throw new BitStreamException("Error reading input stream", e);
 		}
 	}
+	
+	public void close() {
+		try {
+			data.close();
+		} catch (IOException e) {
+			throw new BitStreamException("Unable to close bit stream", e);
+		}
+	}
 
 }

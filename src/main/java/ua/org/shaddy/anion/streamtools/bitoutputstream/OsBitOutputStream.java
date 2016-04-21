@@ -18,4 +18,11 @@ public class OsBitOutputStream extends BitOutputStream{
 			throw new BitStreamException("Error writing to stream", e);
 		}
 	}
+	public void close() {
+		try {
+			os.close();
+		} catch (IOException e) {
+			throw new BitStreamException("Error closing output stream", e);
+		}
+	}
 }

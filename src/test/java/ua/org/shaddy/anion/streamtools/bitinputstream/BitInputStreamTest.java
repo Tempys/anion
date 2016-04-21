@@ -28,6 +28,9 @@ public class BitInputStreamTest extends TestCase {
 			protected int loadByteNative() {
 				return value ++;
 			}
+			public void close() {
+				
+			}
 		};
 		assertEquals(0, bis.getCounter());
 		assertEquals(0, bis.loadByte());
@@ -40,6 +43,9 @@ public class BitInputStreamTest extends TestCase {
 			int value = 0;
 			protected int loadByteNative() {
 				return value ++;
+			}
+			public void close() {
+				
 			}
 		};
 		assertEquals(0, bis.getCounter());
@@ -55,6 +61,9 @@ public class BitInputStreamTest extends TestCase {
 			int value = 0;
 			protected int loadByteNative() {
 				return value ++;
+			}
+			public void close() {
+				
 			}
 		};
 		assertEquals(0, bis.getCounter());
