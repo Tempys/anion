@@ -49,7 +49,24 @@ public class BitStreamEncoderDecoderTest extends TestCase {
 			benc.writeBoolean(dec.loadBoolean());
 			benc.writeBits(dec.loadBits(14), 14);
 		}
-		System.out.println(Arrays.toString(bos.getData()));
+		for (int i = 0; i < TEST_COUNT; i ++){
+			assertEquals((byte) input[i], (byte) bos.getData()[i]);
+		}
+	}
+	public void testEncodeDecodeLoop2(){
+		byte []input = new byte[TEST_COUNT];
+		for (int i = 0; i < TEST_COUNT; i++){
+			input[i] = (byte) i;
+		}
+		ByteBitInputStream bis = new ByteBitInputStream(input);
+		BitStreamDecoder dec = new BitStreamDecoder(bis);
+		ByteBitOutputStream bos = new ByteBitOutputStream(TEST_COUNT);
+		BitStreamEncoder benc = new BitStreamEncoder(bos);
+		for (int i = 0; i < TEST_COUNT / 2 ; i++){
+			benc.writeBits(dec.loadBits(14), 14);
+			benc.writeBoolean(dec.loadBoolean());
+			benc.writeBoolean(dec.loadBoolean());
+		}
 		for (int i = 0; i < TEST_COUNT; i ++){
 			assertEquals((byte) input[i], (byte) bos.getData()[i]);
 		}
