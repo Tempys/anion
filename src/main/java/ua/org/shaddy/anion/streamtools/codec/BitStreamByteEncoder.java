@@ -14,7 +14,7 @@ public class BitStreamByteEncoder {
 		this.bs = bs;
 	}
 	
-	public BitOutputStream getBs() {
+	public BitOutputStream getBitStream() {
 		return bs;
 	}
 
