@@ -26,9 +26,9 @@ public class BitStreamByteEncoderTest extends TestCase {
 		assertEquals(-127, bos.getData()[1]);
 		enc.writeByte(1, 1);
 		enc.writeByte(1, 8);
-		assertEquals(-126, bos.getData()[2]);
+		assertEquals(-128, bos.getData()[2]);
 		enc.writeByte(1, 7);
-		assertEquals(1, bos.getData()[3]);
+		assertEquals(-127, bos.getData()[3]);
 		assertEquals(4, bos.getCounter());
 	}
 	

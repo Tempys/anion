@@ -26,7 +26,8 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 	public void writeBits(long data, int size){
 		while (size > 0) {
 			int moveCount = size > 8 ? size - 8 : 0;
-			writeByte((int) (data >>> moveCount), size > 8 ? 8 : size);
+			int writeSize = size > 8 ? 8 : size;
+			writeByte((int) (data >>> moveCount), writeSize);
 			size -= 8;
 		}
 	}

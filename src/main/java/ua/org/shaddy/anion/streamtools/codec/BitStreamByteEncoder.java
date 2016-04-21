@@ -52,10 +52,11 @@ public class BitStreamByteEncoder {
 			} else {
 				int firstBitCount = 8 - padding;
 				try{
-					bs.writeByte(lastByte | ((data & BitTools.bitMask[firstBitCount]) << padding));
+					int dataToWrite = lastByte | (data  >>> padding);
+					bs.writeByte(dataToWrite);
 				} finally {
 					padding = bitCount - firstBitCount;
-					lastByte = data >>> firstBitCount;	
+					lastByte = (data & BitTools.bitMask[padding]) << firstBitCount;	
 				}
 			}
 		}

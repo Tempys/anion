@@ -48,7 +48,7 @@ public class BitStreamByteDecoder {
 				int lowBitCount = countAndPadding - 8;
 				int data = (lastByte & BitTools.backBitMask[padding]) << lowBitCount;
 				lastByte = bs.loadByte();
-				data = data | ((lastByte & BitTools.backBitMask[lowBitCount]) >>> (8 - lowBitCount));				
+				data = data | ((lastByte & BitTools.invertedBackBitMask[lowBitCount]) >>> (8 - lowBitCount));				
 				padding = lowBitCount;
 				return data;
 			}

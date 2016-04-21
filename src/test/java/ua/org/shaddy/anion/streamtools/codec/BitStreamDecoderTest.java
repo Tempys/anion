@@ -24,12 +24,36 @@ public class BitStreamDecoderTest extends TestCase {
 		assertEquals("a1b2c3d4", Long.toHexString(bsd1.loadBits(32)));
 	}
 	
-	public void testLoadBitsfirst() {
+	public void testLoadBitsfirstSmall() {
 		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 0, (byte) 0x1});
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
 		assertFalse(bsd.loadBoolean());
 		assertFalse(bsd.loadBoolean());
 		assertEquals(1, bsd.loadBits(14));	
+	}
+	
+	public void testLoadBitsfirstSmall1() {
+		BitInputStream bis = new ByteBitInputStream(new byte[]{1, 2});
+		BitStreamDecoder bsd = new BitStreamDecoder(bis);
+		assertFalse(bsd.loadBoolean());
+		assertFalse(bsd.loadBoolean());
+		assertEquals(258, bsd.loadBits(14));	
+	}
+	
+	public void testLoadBitsfirstSmall2() {
+		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 64, (byte) 65});
+		BitStreamDecoder bsd = new BitStreamDecoder(bis);
+		assertFalse(bsd.loadBoolean());
+		assertTrue(bsd.loadBoolean());
+		assertEquals(65, bsd.loadBits(14));	
+	}
+	
+	public void testLoadBitsLastSmall() {
+		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 0, (byte) 0x1});
+		BitStreamDecoder bsd = new BitStreamDecoder(bis);
+		assertEquals(0, bsd.loadBits(14));
+		assertFalse(bsd.loadBoolean());
+		assertTrue(bsd.loadBoolean());
 	}
 	
 	public void testLoadBoolean() {
@@ -40,7 +64,7 @@ public class BitStreamDecoderTest extends TestCase {
 		assertEquals(true, bsd.loadBoolean());
 		assertEquals(false, bsd.loadBoolean());
 	}
-
+	
 	public void testLoadByteArray() {
 		BitInputStream bis = new ByteBitInputStream(new byte[]{
 				(byte) 0x1a, (byte) 0x2b, (byte) 0x3c, (byte) 0x4d
