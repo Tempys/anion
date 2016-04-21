@@ -4,12 +4,14 @@ import junit.framework.TestCase;
 import ua.org.shaddy.anion.streamtools.ByteOrder;
 import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
 import ua.org.shaddy.anion.streamtools.bitinputstream.ByteBitInputStream;
+import ua.org.shaddy.anion.streamtools.bitoutputstream.ByteBitOutputStream;
 import ua.org.shaddy.anion.streamtools.codec.BitStreamDecoder;
 import ua.org.shaddy.anion.tools.BitStreamException;
 
 public class BitStreamDecoderTest extends TestCase {
 
 	private static final String TEST_STRING= "test string";
+	private static final int BITS_SIZE = 4096 * 16;
 	public void testLoadBits() {
 		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
@@ -99,6 +101,33 @@ public class BitStreamDecoderTest extends TestCase {
 			fail("Exception is expected, but not thrown");
 		} catch (BitStreamException t){
 		}
+	}
+	
+	public void testReadBooleans() {
+		boolean data[] = new boolean[BITS_SIZE * 8];
+		for (int i = 0; i < BITS_SIZE; i++){
+			for (int x = 0; x < 8; x++){
+				data[ i * 8 + x ] = Math.random() > 0.5; 
+			}
+		}
+		
+		byte byteData[] = new byte[BITS_SIZE];
+		for (int i = 0; i < BITS_SIZE; i++){
+			byteData[i] = 0;
+			int d = 0;
+			for (int x = 0; x < 8; x ++){
+				int val = data[i * 8 + x] ? 1 : 0;
+				d = d | (val << (7 - x));
+			}
+			byteData[i] = (byte) d;
+		}
+		
+		BitInputStream bis = new ByteBitInputStream(byteData);
+		BitStreamDecoder bsd = new BitStreamDecoder(bis);
+		for (int i = 0; i < BITS_SIZE * 8; i++){
+			assertEquals(data[i], bsd.loadBoolean()); 
+		}
+		
 	}
 	
 }

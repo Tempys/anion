@@ -10,7 +10,8 @@ import ua.org.shaddy.anion.streamtools.codec.BitStreamEncoder;
 import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamEncoderTest extends TestCase {
-
+	
+	private static final int BITS_SIZE = 4096 * 16;
 	public void testWriteRegularByte() {
 		ByteBitOutputStream bos = new ByteBitOutputStream(5);
 		BitStreamEncoder bse = new BitStreamEncoder(bos);
@@ -87,22 +88,46 @@ public class BitStreamEncoderTest extends TestCase {
 		bse.writeBits(0, 14);
 		assertEquals(-128, bos.getData()[0]);
 	}
-	
-	/*public void testWriteBitsLoop(){
-		ByteBitOutputStream bos = new ByteBitOutputStream(256);
+	public void testWriteBooleansStatic(){
+		ByteBitOutputStream bos = new ByteBitOutputStream(BITS_SIZE);
 		BitStreamEncoder bse = new BitStreamEncoder(bos);
-		for (int i = 0; i < 128; i++){
-			bse.writeBits(i, 3);
-			bse.writeBits((i >>> 3) & 8191, 13);
-		}
-		byte[] data = bos.getData();
-		for (int i = 0; i < 128; i++){
-			int pointer = i * 2;
-			assertEquals(i & 7, (data[pointer] & BitTools.invertedBackBitMask[3]) >>> 5);
-			assertEquals(i & 8191, ((data[pointer] & BitTools.bitMask[5]) << 8) | data[pointer + 1]);
-		}
-		System.out.println(Arrays.toString(bos.getData()));
-	}*/
+		bse.writeBoolean(true);
+		bse.writeBoolean(false);
+		bse.writeBoolean(true);
+		bse.writeBoolean(false);
+		bse.writeBoolean(true);
+		bse.writeBoolean(false);
+		bse.writeBoolean(true);
+		bse.writeBoolean(false);
+		bse.writeBoolean(true);
+		bse.writeBoolean(false);
+		bse.writeBoolean(true);
+		bse.writeBoolean(false);
+		bse.writeBoolean(true);
+		bse.writeBoolean(false);
+		bse.writeBoolean(true);
+		bse.writeBoolean(false);
+		assertEquals((byte)0xaa, bos.getData()[0]);
+		assertEquals((byte)0xaa, bos.getData()[1]);
+	}
 	
-	
+	public void testWriteBooleans(){
+		boolean data[] = new boolean[BITS_SIZE * 8];
+		for (int i = 0; i < BITS_SIZE; i++){
+			for (int x = 0; x < 8; x++){
+				data[ i * 8 + x ] = Math.random() > 0.5; 
+			}
+		}
+		ByteBitOutputStream bos = new ByteBitOutputStream(BITS_SIZE);
+		BitStreamEncoder bse = new BitStreamEncoder(bos);
+		for (int i = 0; i < BITS_SIZE * 8; i++){
+			bse.writeBoolean(data[i]);	
+		}
+		byte[] outData = bos.getData();
+		for (int i=0; i < BITS_SIZE; i++){
+			for (int x=0; x < 8; x ++){
+				assertEquals( data[i * 8 + x], (outData[i] & (1 << 7 >> x)) > 0); 
+			}
+		}
+	}
 }
