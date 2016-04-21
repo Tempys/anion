@@ -28,13 +28,15 @@ public class BitStreamByteDecoder {
 		if (bitCount > 8){
 			throw new BitStreamException("Error, bit count is more than 8:" + bitCount);
 		}
-		if (padding == 0 && bitCount == 8) {
-			return bs.loadByte();
-		} else if (padding == 0) {
-			lastByte = bs.loadByte();
-			int data = (lastByte >>> (8 - bitCount)) & BitTools.bitMask[bitCount] ;
-			padding = bitCount;
-			return data;
+		if (padding == 0) {
+			if (bitCount == 8){
+				return bs.loadByte();	
+			} else {
+				lastByte = bs.loadByte();
+				int data = lastByte >>> (8 - bitCount);
+				padding = bitCount;
+				return data;	
+			}
 		} else {
 			int countAndPadding = bitCount + padding; 
 			if ( countAndPadding <= 8 ) {
@@ -48,7 +50,7 @@ public class BitStreamByteDecoder {
 				int lowBitCount = countAndPadding - 8;
 				int data = (lastByte & BitTools.backBitMask[padding]) << lowBitCount;
 				lastByte = bs.loadByte();
-				data = data | ((lastByte & BitTools.invertedBackBitMask[lowBitCount]) >>> (8 - lowBitCount));				
+				data |= ((lastByte & BitTools.invertedBackBitMask[lowBitCount]) >>> (8 - lowBitCount));				
 				padding = lowBitCount;
 				return data;
 			}

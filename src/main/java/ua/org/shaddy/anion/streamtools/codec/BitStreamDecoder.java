@@ -27,9 +27,16 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 	 */
 	public long loadBits(int size) {
 		long res = 0;
+		int moveCount;
+		int loadCount;
 		while (size > 0) {
-			int moveCount = size > 8 ? size - 8 : 0;
-			int loadCount = size > 8 ? 8 : size;
+			if (size > 8){
+				moveCount = size - 8;
+				loadCount = 8;
+			} else {
+				moveCount = 0;
+				loadCount = size;
+			}
 			res = res | ((long) loadByte(loadCount) << moveCount);
 			size -= 8;
 		}
