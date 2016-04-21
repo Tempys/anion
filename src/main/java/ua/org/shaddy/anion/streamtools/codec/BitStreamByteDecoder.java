@@ -12,6 +12,11 @@ public class BitStreamByteDecoder {
 	public BitStreamByteDecoder(BitInputStream bs) {
 		this.bs = bs;
 	}
+	
+	public BitInputStream getBitStream() {
+		return bs;
+	}
+
 	/**
 	 * loads an 8 bit byte from {@link BitInputStream}
 	 * @return

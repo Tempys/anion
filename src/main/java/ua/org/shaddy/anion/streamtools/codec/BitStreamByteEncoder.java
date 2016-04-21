@@ -5,7 +5,7 @@ import ua.org.shaddy.anion.tools.BitStreamException;
 import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamByteEncoder {
-	private BitOutputStream bs;
+	private final BitOutputStream bs;
 	private int padding = 0;
 	private int lastByte = 0;
 	
@@ -13,6 +13,11 @@ public class BitStreamByteEncoder {
 	public BitStreamByteEncoder(BitOutputStream bs){
 		this.bs = bs;
 	}
+	
+	public BitOutputStream getBs() {
+		return bs;
+	}
+
 	/**
 	 * writes an byte to {@link BitOutputStream}, considering padding 
 	 * @param data
