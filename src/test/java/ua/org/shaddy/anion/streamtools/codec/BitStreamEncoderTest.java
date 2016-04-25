@@ -130,4 +130,28 @@ public class BitStreamEncoderTest extends TestCase {
 			}
 		}
 	}
+	private void writeBigBooleans(){
+		boolean data[] = new boolean[BITS_SIZE * 8];
+		for (int i = 0; i < BITS_SIZE; i++){
+			for (int x = 0; x < 8; x++){
+				data[ i * 8 + x ] = Math.random() > 0.5; 
+			}
+		}
+		ByteBitOutputStream bos = new ByteBitOutputStream(BITS_SIZE);
+		BitStreamEncoder bse = new BitStreamEncoder(bos);
+		for (int i = 0; i < BITS_SIZE * 8; i++){
+			bse.writeBoolean(data[i]);	
+		}
+		byte[] outData = bos.getData();
+		for (int i=0; i < BITS_SIZE; i++){
+			for (int x=0; x < 8; x ++){
+				assertEquals( data[i * 8 + x], (outData[i] & (1 << 7 >> x)) > 0); 
+			}
+		}
+	}
+	public void testWritebigBooleans(){
+		for (int i=0; i < 3051; i++){
+			writeBigBooleans();
+		}
+	}
 }

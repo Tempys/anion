@@ -19,8 +19,9 @@ public abstract class BitInputStream {
 	 * @return
 	 */
 	public int loadByte(){
+		int result = loadByteNative();
 		counter ++;
-		return loadByteNative();
+		return result;
 	}
 	/**
 	 * returns a counter of loaded bytes
