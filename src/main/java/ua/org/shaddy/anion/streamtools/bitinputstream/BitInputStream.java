@@ -14,6 +14,7 @@ public abstract class BitInputStream {
 	 * @return
 	 */
 	protected abstract int loadByteNative();
+	public abstract void close();
 	/**
 	 * loads a bytefrom stream and increments a counter of loaded bytes
 	 * @return

@@ -23,4 +23,8 @@ public class ByteBitOutputStream extends BitOutputStream{
 	public byte[] getData() {
 		return data;
 	}
+
+	public void close() {
+		
+	}
 }

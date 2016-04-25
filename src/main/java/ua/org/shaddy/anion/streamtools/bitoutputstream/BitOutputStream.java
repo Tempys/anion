@@ -12,6 +12,10 @@ public abstract class BitOutputStream {
 	 */
 	protected abstract void writeByteNative(int data);
 	/**
+	 * closes the stream
+	 */
+	public abstract void close();
+	/**
 	 * saves a byte to stream and increments a counter of saved bytes
 	 * @return
 	 */

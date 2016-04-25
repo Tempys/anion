@@ -5,7 +5,7 @@ import ua.org.shaddy.anion.tools.BitStreamException;
 import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamByteEncoder {
-	private BitOutputStream bs;
+	private final BitOutputStream bs;
 	private int padding = 0;
 	private int lastByte = 0;
 	
@@ -13,6 +13,11 @@ public class BitStreamByteEncoder {
 	public BitStreamByteEncoder(BitOutputStream bs){
 		this.bs = bs;
 	}
+	
+	public BitOutputStream getBitStream() {
+		return bs;
+	}
+
 	/**
 	 * writes an byte to {@link BitOutputStream}, considering padding 
 	 * @param data
@@ -29,15 +34,17 @@ public class BitStreamByteEncoder {
 		if (bitCount > 8){
 			throw new BitStreamException("Error, bit count is more than 8:" + bitCount);
 		}
-		if (padding == 0 && bitCount == 8) {
-			bs.writeByte(data);
-		} else if (padding == 0){
-			//
-			//		10101010
-			//		^ ^
-			//		|_| 3 bits
-			lastByte = (data << (8 - bitCount)) & BitTools.invertedBackBitMask[bitCount] ;
-			padding = bitCount;
+		if (padding == 0) {
+			if (bitCount == 8){
+				bs.writeByte(data);	
+			} else {
+				//
+				//		10101010
+				//		^ ^
+				//		|_| 3 bits
+				lastByte = (data << (8 - bitCount)) & BitTools.invertedBackBitMask[bitCount] ;
+				padding = bitCount;
+			}			
 		} else {
 			int countAndPadding = bitCount + padding; 
 			if (countAndPadding <= 8) {
@@ -46,14 +53,11 @@ public class BitStreamByteEncoder {
 				if (padding == 8) {
 					padding = 0;
 					bs.writeByte(lastByte);
-					lastByte = 0;
 				}
-				return;
 			} else {
 				int firstBitCount = 8 - padding;
 				try{
-					int dataToWrite = lastByte | (data  >>> padding);
-					bs.writeByte(dataToWrite);
+					bs.writeByte(lastByte | (data  >>> padding));
 				} finally {
 					padding = bitCount - firstBitCount;
 					lastByte = (data & BitTools.bitMask[padding]) << firstBitCount;	

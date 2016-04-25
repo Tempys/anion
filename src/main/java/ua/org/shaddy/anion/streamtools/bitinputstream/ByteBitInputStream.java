@@ -21,4 +21,8 @@ public class ByteBitInputStream extends BitInputStream {
 		counter += skipSize;
 		pointer += skipSize;
 	}
+	
+	public void close() {
+		
+	}
 }
