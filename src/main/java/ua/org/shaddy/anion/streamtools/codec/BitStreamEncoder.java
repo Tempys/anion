@@ -32,6 +32,13 @@ public class BitStreamEncoder extends BitStreamByteEncoder{
 		}
 	}
 	/**
+	 * writes 16 bits into output stream from int
+	 * @param data
+	 */
+	public void writeShort(int data){
+		writeBits(data, 16);
+	}
+	/**
 	 * writes 1 bit boolean to output stream
 	 * @param data
 	 */

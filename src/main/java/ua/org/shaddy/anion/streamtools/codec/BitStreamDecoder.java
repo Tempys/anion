@@ -42,6 +42,14 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 		}
 		return res;
 	}
+	
+	/**
+	 * loads 16 bits into int
+	 * @return
+	 */
+	public int loadShort(){
+		return (int) loadBits(16);
+	}
 
 	/**
 	 * returns byte order {@link ByteOrder}
