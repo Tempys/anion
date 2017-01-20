@@ -7,39 +7,39 @@ import ua.org.shaddy.anion.tools.BitStreamEndsException;
  * @author shaddy
  *
  */
-public abstract class BitInputStream {
+public abstract class BitInputStream implements BitInputStreamInterface {
 	protected long counter = 0;
 	/**
 	 * loads single byte from bit stream and increments a counter, throws {@link BitStreamEndsException} when stream ends;
 	 * @return
 	 */
 	protected abstract int loadByteNative();
+	/* (non-Javadoc)
+	 * @see ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStreamInterface#close()
+	 */
 	public abstract void close();
-	/**
-	 * loads a bytefrom stream and increments a counter of loaded bytes
-	 * @return
+	/* (non-Javadoc)
+	 * @see ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStreamInterface#loadByte()
 	 */
 	public int loadByte(){
 		int result = loadByteNative();
 		counter ++;
 		return result;
 	}
-	/**
-	 * returns a counter of loaded bytes
-	 * @return
+	/* (non-Javadoc)
+	 * @see ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStreamInterface#getCounter()
 	 */
 	public long getCounter() {
 		return counter;
 	}
-	/**
-	 * resets a counter of loaded bytes
+	/* (non-Javadoc)
+	 * @see ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStreamInterface#resetCounter()
 	 */
 	public void resetCounter(){
 		counter = 0;
 	}
-	/**
-	 * skip some bytes in stream
-	 * @param skipSize
+	/* (non-Javadoc)
+	 * @see ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStreamInterface#skip(int)
 	 */
 	public void skip(int skipSize) {
 		for (int i = 0; i < skipSize; i++){

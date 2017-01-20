@@ -2,7 +2,7 @@ package ua.org.shaddy.anion.streamtools.codec;
 
 import junit.framework.TestCase;
 import ua.org.shaddy.anion.streamtools.ByteOrder;
-import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
+import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStreamInterface;
 import ua.org.shaddy.anion.streamtools.bitinputstream.ByteBitInputStream;
 import ua.org.shaddy.anion.streamtools.bitoutputstream.ByteBitOutputStream;
 import ua.org.shaddy.anion.streamtools.codec.BitStreamDecoder;
@@ -13,11 +13,11 @@ public class BitStreamDecoderTest extends TestCase {
 	private static final String TEST_STRING= "test string";
 	private static final int BITS_SIZE = 4096 * 16;
 	public void testLoadBits() {
-		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
+		BitInputStreamInterface bis = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
 		assertEquals("a1b2c3d4", Long.toHexString(bsd.loadBits(32)));
 		
-		BitInputStream bis1 = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
+		BitInputStreamInterface bis1 = new ByteBitInputStream(new byte[]{(byte) 0xa1, (byte) 0xb2, (byte) 0xc3, (byte) 0xd4});
 		BitStreamDecoder bsd1 = new BitStreamDecoder(bis1);
 		bsd1.setByteOrder(ByteOrder.BIG_ENDIAN);
 		//
@@ -27,7 +27,7 @@ public class BitStreamDecoderTest extends TestCase {
 	}
 	
 	public void testLoadBitsfirstSmall() {
-		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 0, (byte) 0x1});
+		BitInputStreamInterface bis = new ByteBitInputStream(new byte[]{(byte) 0, (byte) 0x1});
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
 		assertFalse(bsd.loadBoolean());
 		assertFalse(bsd.loadBoolean());
@@ -35,7 +35,7 @@ public class BitStreamDecoderTest extends TestCase {
 	}
 	
 	public void testLoadBitsfirstSmall1() {
-		BitInputStream bis = new ByteBitInputStream(new byte[]{1, 2});
+		BitInputStreamInterface bis = new ByteBitInputStream(new byte[]{1, 2});
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
 		assertFalse(bsd.loadBoolean());
 		assertFalse(bsd.loadBoolean());
@@ -43,7 +43,7 @@ public class BitStreamDecoderTest extends TestCase {
 	}
 	
 	public void testLoadBitsfirstSmall2() {
-		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 64, (byte) 65});
+		BitInputStreamInterface bis = new ByteBitInputStream(new byte[]{(byte) 64, (byte) 65});
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
 		assertFalse(bsd.loadBoolean());
 		assertTrue(bsd.loadBoolean());
@@ -51,7 +51,7 @@ public class BitStreamDecoderTest extends TestCase {
 	}
 	
 	public void testLoadBitsLastSmall() {
-		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 0, (byte) 0x1});
+		BitInputStreamInterface bis = new ByteBitInputStream(new byte[]{(byte) 0, (byte) 0x1});
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
 		assertEquals(0, bsd.loadBits(14));
 		assertFalse(bsd.loadBoolean());
@@ -59,7 +59,7 @@ public class BitStreamDecoderTest extends TestCase {
 	}
 	
 	public void testLoadBoolean() {
-		BitInputStream bis = new ByteBitInputStream(new byte[]{(byte) 170});
+		BitInputStreamInterface bis = new ByteBitInputStream(new byte[]{(byte) 170});
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
 		assertEquals(true, bsd.loadBoolean());
 		assertEquals(false, bsd.loadBoolean());
@@ -68,7 +68,7 @@ public class BitStreamDecoderTest extends TestCase {
 	}
 	
 	public void testLoadByteArray() {
-		BitInputStream bis = new ByteBitInputStream(new byte[]{
+		BitInputStreamInterface bis = new ByteBitInputStream(new byte[]{
 				(byte) 0x1a, (byte) 0x2b, (byte) 0x3c, (byte) 0x4d
 		});
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
@@ -80,21 +80,21 @@ public class BitStreamDecoderTest extends TestCase {
 	}
 
 	public void testLoadString() {
-		BitInputStream bis = new ByteBitInputStream(TEST_STRING.getBytes());
+		BitInputStreamInterface bis = new ByteBitInputStream(TEST_STRING.getBytes());
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
 		String str = bsd.loadString(TEST_STRING.length());
 		assertEquals(TEST_STRING, str);
 	}
 	
 	public void testLoadStringEncoding() {
-		BitInputStream bis = new ByteBitInputStream(TEST_STRING.getBytes());
+		BitInputStreamInterface bis = new ByteBitInputStream(TEST_STRING.getBytes());
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
 		String str = bsd.loadString(TEST_STRING.length(), "utf-8");
 		assertEquals(TEST_STRING, str);
 	}
 	
 	public void testLoadStringEncodingError() {
-		BitInputStream bis = new ByteBitInputStream(TEST_STRING.getBytes());
+		BitInputStreamInterface bis = new ByteBitInputStream(TEST_STRING.getBytes());
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
 		try{
 			String str = bsd.loadString(TEST_STRING.length(), "utf-88");
@@ -122,7 +122,7 @@ public class BitStreamDecoderTest extends TestCase {
 			byteData[i] = (byte) d;
 		}
 		
-		BitInputStream bis = new ByteBitInputStream(byteData);
+		BitInputStreamInterface bis = new ByteBitInputStream(byteData);
 		BitStreamDecoder bsd = new BitStreamDecoder(bis);
 		for (int i = 0; i < BITS_SIZE * 8; i++){
 			assertEquals(data[i], bsd.loadBoolean()); 

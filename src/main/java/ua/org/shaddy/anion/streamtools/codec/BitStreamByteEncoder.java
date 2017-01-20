@@ -1,20 +1,21 @@
 package ua.org.shaddy.anion.streamtools.codec;
 
 import ua.org.shaddy.anion.streamtools.bitoutputstream.BitOutputStream;
+import ua.org.shaddy.anion.streamtools.bitoutputstream.BitOutputStreamInterface;
 import ua.org.shaddy.anion.tools.BitStreamException;
 import ua.org.shaddy.anion.tools.BitTools;
 
 public class BitStreamByteEncoder {
-	private final BitOutputStream bs;
+	private final BitOutputStreamInterface bs;
 	private int padding = 0;
 	private int lastByte = 0;
 	
 
-	public BitStreamByteEncoder(BitOutputStream bs){
+	public BitStreamByteEncoder(BitOutputStreamInterface bs){
 		this.bs = bs;
 	}
 	
-	public BitOutputStream getBitStream() {
+	public BitOutputStreamInterface getBitStream() {
 		return bs;
 	}
 

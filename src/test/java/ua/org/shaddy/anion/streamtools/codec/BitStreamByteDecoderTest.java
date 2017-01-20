@@ -1,6 +1,6 @@
 package ua.org.shaddy.anion.streamtools.codec;
 
-import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
+import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStreamInterface;
 import ua.org.shaddy.anion.streamtools.bitinputstream.ByteBitInputStream;
 import ua.org.shaddy.anion.streamtools.bitoutputstream.ByteBitOutputStream;
 import ua.org.shaddy.anion.streamtools.codec.BitStreamByteDecoder;
@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 public class BitStreamByteDecoderTest extends TestCase{
 	
 	public void testByteLoading(){
-		BitInputStream bs = new ByteBitInputStream(new byte[] {0x0a, 0x0b, 0x0c, 0x0d});
+		BitInputStreamInterface bs = new ByteBitInputStream(new byte[] {0x0a, 0x0b, 0x0c, 0x0d});
 		BitStreamByteDecoder bCodec = new BitStreamByteDecoder(bs);
 		assertEquals(0x0a, bCodec.loadByte());
 		assertEquals(0x0b, bCodec.loadByte());
@@ -19,7 +19,7 @@ public class BitStreamByteDecoderTest extends TestCase{
 	}
 	
 	public void testBitLoading(){
-		BitInputStream bs = new ByteBitInputStream(new byte[] {(byte) 0xaa, 0x07, 0x0c, 0x0d});
+		BitInputStreamInterface bs = new ByteBitInputStream(new byte[] {(byte) 0xaa, 0x07, 0x0c, 0x0d});
 		BitStreamByteDecoder bCodec = new BitStreamByteDecoder(bs);
 		assertEquals(1, bCodec.loadByte(1));
 		assertEquals(1, bCodec.getPadding());
@@ -42,7 +42,7 @@ public class BitStreamByteDecoderTest extends TestCase{
 	}
 	
 	public void testBitLoadingPaddings(){
-		BitInputStream bs = new ByteBitInputStream(new byte[] {(byte) 0xfa, (byte) 0x0b});
+		BitInputStreamInterface bs = new ByteBitInputStream(new byte[] {(byte) 0xfa, (byte) 0x0b});
 		BitStreamByteDecoder bCodec = new BitStreamByteDecoder(bs);
 		assertEquals(Long.toHexString(0xf), Long.toHexString(bCodec.loadByte(4)));
 		assertEquals(4, bCodec.getPadding());
@@ -51,7 +51,7 @@ public class BitStreamByteDecoderTest extends TestCase{
 	}
 	
 	public void testReadBytesNegative(){
-		BitInputStream bs = new ByteBitInputStream(new byte[] {(byte) 128});
+		BitInputStreamInterface bs = new ByteBitInputStream(new byte[] {(byte) 128});
 		BitStreamByteDecoder bCodec = new BitStreamByteDecoder(bs);
 		assertEquals((byte) 128, (byte) bCodec.loadByte());
 		assertEquals(1, bs.getCounter());

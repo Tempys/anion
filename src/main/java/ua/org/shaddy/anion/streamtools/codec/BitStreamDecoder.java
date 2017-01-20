@@ -3,7 +3,7 @@ package ua.org.shaddy.anion.streamtools.codec;
 import java.io.UnsupportedEncodingException;
 
 import ua.org.shaddy.anion.streamtools.ByteOrder;
-import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStream;
+import ua.org.shaddy.anion.streamtools.bitinputstream.BitInputStreamInterface;
 import ua.org.shaddy.anion.tools.BitStreamException;
 import ua.org.shaddy.anion.tools.BitTools;
 
@@ -11,11 +11,11 @@ public class BitStreamDecoder extends BitStreamByteDecoder {
 
 	private byte byteOrder = ByteOrder.BIG_ENDIAN;
 
-	public BitStreamDecoder(BitInputStream bs) {
+	public BitStreamDecoder(BitInputStreamInterface bs) {
 		super(bs);
 	}
 	
-	public BitStreamDecoder(BitInputStream bs, byte byteOrder) {
+	public BitStreamDecoder(BitInputStreamInterface bs, byte byteOrder) {
 		super(bs);
 		this.byteOrder = byteOrder;
 	}

@@ -4,35 +4,33 @@ package ua.org.shaddy.anion.streamtools.bitoutputstream;
  * @author shaddy
  *
  */
-public abstract class BitOutputStream {
+public abstract class BitOutputStream implements BitOutputStreamInterface {
 	protected long counter = 0;
 	/**
 	 * saves single byte from bit stream and increments a counter
 	 * @return
 	 */
 	protected abstract void writeByteNative(int data);
-	/**
-	 * closes the stream
+	/* (non-Javadoc)
+	 * @see ua.org.shaddy.anion.streamtools.bitoutputstream.BitOutputStreaminterface#close()
 	 */
 	public abstract void close();
-	/**
-	 * saves a byte to stream and increments a counter of saved bytes
-	 * @return
+	/* (non-Javadoc)
+	 * @see ua.org.shaddy.anion.streamtools.bitoutputstream.BitOutputStreaminterface#writeByte(int)
 	 */
 	public long writeByte(int data){
 		writeByteNative(data);
 		counter ++;
 		return counter;
 	}
-	/**
-	 * returns a counter of saved bytes
-	 * @return
+	/* (non-Javadoc)
+	 * @see ua.org.shaddy.anion.streamtools.bitoutputstream.BitOutputStreaminterface#getCounter()
 	 */
 	public long getCounter() {
 		return counter;
 	}
-	/**
-	 * resets a counter of saved bytes
+	/* (non-Javadoc)
+	 * @see ua.org.shaddy.anion.streamtools.bitoutputstream.BitOutputStreaminterface#resetCounter()
 	 */
 	public void resetCounter(){
 		counter = 0;
